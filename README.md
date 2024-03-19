@@ -1,70 +1,92 @@
-# Getting Started with Create React App
+# ProjectPacer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+**ProjectPacer** is a web-based application crafted specifically for freelancers, aiming to enhance their productivity by providing a way to track time spent on various projects and tasks. The app integrates a timer with start, pause, and stop functionalities, invoicing based on tracked hours, and a motivational quotes feature to inspire users throughout their workday. Additionally, ProjectPacer allows users to add detailed comments to their time entries, ensuring a comprehensive understanding of tasks completed during each tracked period.
 
-In the project directory, you can run:
 
-### `npm start`
+### Problem
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Managing multiple projects and tasks can often lead to inefficiencies and inaccuracies in time tracking for freelancers, affecting overall productivity. The administrative burden of creating invoices and tracking their status further complicates the workflow. ProjectPacer addresses these challenges by offering a solution that not only simplifies time tracking and invoice management but also boosts motivation through curated inspirational quotes.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### User Profile
 
-### `npm test`
+ProjectPacer is designed for individual freelancers who need an efficient tool for managing their time, generating invoices, and seeking motivation. This initial version focuses on single-user functionality, with plans to expand features to support teams or agencies in future updates.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Features
 
-### `npm run build`
+- **Time Tracking with Comments:** Enables time tracking for tasks with the ability to add comments detailing work completed.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Time Entries Management:** Offers functionalities to view, edit, and select time entries for invoicing, including detailed comments.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Invoice Generation and Management:** Facilitates the creation of invoices from selected time entries, customization of invoice details, tracking of invoice statuses (draft, sent, paid, late), and the ability to export as PDF.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Motivational Quotes:** Displays real-time motivational quotes from a third-party API to inspire and support users during their work.
 
-### `npm run eject`
+- **Data Export:** Allows users to export time tracking and invoice data for record-keeping and analysis.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Implementation
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Tech Stack
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **Frontend:** React.js, SASS, and React Router.
+- **Backend:** Node.js, Express for server-side logic, (For future development: database for data storage).
+- **Libraries:** jsPDF for PDF generation, axios for API requests, (maybe also Redux for easier state management).
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### APIs
 
-## Learn More
+- ZenQuotes.io - https://zenquotes.io/
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Sitemap
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Timer Page:** Central hub for time tracking, viewing quotes, and adding comments to tasks.
+- **Time Entries Page:** Allows management and review of all time entries and can select specific time entries to create invoice.
+- **Invoices Page:** Handles the creation, review, and status management of invoices. You can click to download PDF file. 
 
-### Code Splitting
+### Mockups
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![](mockup.jpg)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Data
 
-### Making a Progressive Web App
+- **Time Entries:** Enhanced to include start/end times, duration, task-specific comments, and invoicing status.
+- **Invoices:** Detailed with invoice ID, associated time entries, total amount, status, and relevant dates.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Endpoints
 
-### Advanced Configuration
+**POST /time-entries/:id**
+- add time entry 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**GET /time-entries/:id**
+- get time entry by id
 
-### Deployment
+**DELETE /time-entries/:id**
+- delete time entry by id
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Auth
 
-### `npm run build` fails to minify
+ProjectPacer will initially support a single user without authentication, with plans to introduce authentication mechanisms in future versions for expanded user functionalities.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Roadmap
+
+- Create client
+    - React project with routes and boilerplate pages
+- Create server
+    - Express project with routing
+- Feature: Time Tracker (basic requirements: start & pause )
+- Feature: Time entries page & post time entries (backend data storage - now with json file)
+- Feature: Time Tracker with Comments (ability to add comments to time entry)
+- Feature: Deleting capability 
+- ZenQuotes API Connection
+- Front-End Design of Time Tracker 
+- Feature: Invoicing  
+- Front-End Design of Invoicing
+- Feature: PDF Exporting
+- Bug Fixes
+- Demo Day
+
+## Nice-to-haves
+- **Database Utilization:** For comprehensive data management.
+- **Edit Time Entries, Notes, Invoices Functionality:** To enhance the UX of the app but only if I have extra time to set this up. 
+- **Multi-User Support:** Future versions will include functionalities for team or multiple user environments.

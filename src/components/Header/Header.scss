@@ -1,0 +1,34 @@
+@use "../../styles/partials/fonts" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+
+.header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  img {
+    max-height: 30px;
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+
+  &__link {
+    text-decoration: none;
+  }
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 38px;
+    padding: 14px 16px;
+    img {
+      max-height: 18px;
+    }
+  }
+}

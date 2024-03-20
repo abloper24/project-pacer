@@ -33,14 +33,14 @@ function Quotes() {
     }, []);
 
     if (!quote.content) {
-        return <div>Loading...</div>;
+        return <div><p>Loading...</p></div>;
     }
 
 
     return (
         <>
             <section>
-                <h2>Quotes Section</h2>
+                <h2>Daily Dose of Wisdom</h2>
                 <p>{quote.content}</p>
                 <p>{quote.author}</p>
             </section>

@@ -13,3 +13,63 @@
         @content;
     }
 }
+
+//text
+//mobile
+
+@mixin m-h1 {
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+}
+@mixin m-h2 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+//labels links buttons
+@mixin m-h3 {
+    font-size: 1rem;
+    line-height: 1.375rem;
+}
+@mixin m-body {
+    font-size: 1rem;
+    line-height: 1.375rem;
+}
+
+//tablet and desktop
+
+@mixin td-h1 {
+    font-size: 32;
+    line-height: 2.5rem;
+}
+@mixin td-h2 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+//labels links buttons
+@mixin td-h3 {
+    font-size: 1rem;
+    line-height: 1.75rem;
+}
+@mixin td-body {
+    font-size: 1rem;
+    line-height: 1.75rem;
+}
+
+
+
+//padding
+
+@mixin m-padding{
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@mixin t-padding{
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+@mixin d-padding{
+    padding-left: 3.9375rem;
+    padding-right: 3.9375rem;
+}

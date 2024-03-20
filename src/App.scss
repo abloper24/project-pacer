@@ -4,6 +4,21 @@
 
 *, *::before, *::after {
     box-sizing: border-box;
+}
+
+body {
     margin: 0;
     padding: 0;
+    font-family: 'WorkSans';
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'PlayfairDisplay';
+    color: $brown;
+}
+
+
+p, button, link, input, a, ::placeholder, select, label{
+    font-family: 'WorkSans', 'sans serif';
+    color: $brown;
 }

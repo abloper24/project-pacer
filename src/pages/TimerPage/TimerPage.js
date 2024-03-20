@@ -6,8 +6,13 @@ function TimerPage() {
 
     return(
         <>
-        this is the timer page
+        <section>
+        <h1>Timer Page</h1>
+        <p>  this is the timer page</p>  
+        </section>
+
         <Quotes />
+     
         </>
     )
 }

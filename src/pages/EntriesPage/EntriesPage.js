@@ -6,8 +6,10 @@ function EntriesPage() {
 
     return(
         <>
+        <section>
         <h1>Entries</h1>
-        this is the time entries page
+        <p> this is the time entries page</p>
+        </section>
         </>
     )
 }

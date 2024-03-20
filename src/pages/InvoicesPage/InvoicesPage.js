@@ -4,7 +4,10 @@ function InvoicesPage() {
 
     return(
         <>
-        this is the Invoices page
+        <section>
+        <h1>Invoices</h1>
+        <p> this is the invoices page</p>
+        </section>
         </>
     )
 }

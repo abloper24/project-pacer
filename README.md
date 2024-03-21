@@ -101,7 +101,6 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
 - **GET `/entries/:id`**: Get details of entry by ID.
 - **PATCH `/entries/:id`**: Edit entry by ID.
 - **DELETE `/entries/:id`**: Delete entry by ID
-- **GET `/entries/by-timer/:timerid`**: Get entries by timer id. (might remove - not sure if logic works yet)
 
 ```jsx
 {

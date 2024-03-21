@@ -1,28 +1,40 @@
-import React, { useState, useEffect } from "react";
 import "./TimerPage.scss";
 import Quotes from "../../components/Quotes/Quotes";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { format as formatDate } from 'date-fns';
 
-function TimerPage() {
+function TimerPage({ clients }) {
     const [isRunning, setIsRunning] = useState(false);
     const [startTime, setStartTime] = useState(null);
-    const [endTime, setEndTime] = useState(null); 
+    const [endTime, setEndTime] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(0);
     const [description, setDescription] = useState("");
     const [shouldLogEntry, setShouldLogEntry] = useState(false);
 
+    const [selectedClientId, setSelectedClientId] = useState("");
+    // console.log(clients)
+
+    //client data
+    useEffect(() => {
+        if (clients.length > 0) {
+            setSelectedClientId(clients[0].clientid.toString()); //defaul first client
+        }
+    }, [clients]);
+
+    //timer data
     useEffect(() => {
         let interval = null;
 
         if (isRunning) {
-            if (!startTime) setStartTime(new Date()); 
+            if (!startTime) setStartTime(new Date());
             interval = setInterval(() => {
                 setElapsedTime(previousTime => previousTime + 1);
             }, 1000);
         } else if (!isRunning && startTime && shouldLogEntry) {
-            setEndTime(new Date()); 
+            setEndTime(new Date());
             clearInterval(interval);
-            setShouldLogEntry(false); 
+            setShouldLogEntry(false);
         }
         return () => clearInterval(interval);
     }, [isRunning, startTime, shouldLogEntry]);
@@ -33,15 +45,22 @@ function TimerPage() {
         }
     }, [endTime]);
 
-    const formatDateTime = (date) => {
-        return date.toISOString().replace('T', ' ').slice(0, -5);
+
+    //  HH:mm:ss format
+    const formatTime = (seconds) => {
+        const formatNumberWithZeros = (num, size) => String(num).padStart(size, '0');
+        const hours = formatNumberWithZeros(Math.floor(seconds / 3600), 2);
+        const minutes = formatNumberWithZeros(Math.floor((seconds % 3600) / 60), 2);
+        const secondsLeft = formatNumberWithZeros(seconds % 60, 2);
+        return `${hours}:${minutes}:${secondsLeft}`;
     };
 
     const logTimeEntry = async () => {
         if (startTime && endTime) {
-            const duration = Math.floor((endTime - startTime) / 1000); 
-            const formattedStartTime = formatDateTime(startTime); //to format away from Z and T's
-            const formattedEndTime = formatDateTime(endTime);
+            const duration = Math.floor((endTime - startTime) / 1000);
+            // date-fns
+            const formattedStartTime = formatDate(startTime, 'yyyy-MM-dd HH:mm:ss');
+            const formattedEndTime = formatDate(endTime, 'yyyy-MM-dd HH:mm:ss');
 
             try {
                 const response = await axios.post('http://localhost:8080/timers', {
@@ -49,7 +68,7 @@ function TimerPage() {
                     endtime: formattedEndTime,
                     duration,
                     description,
-                    // clientid, for now it will be commented out - need to add logic
+                    clientid: selectedClientId,
                 });
                 console.log(response.data);
                 resetTimer();
@@ -73,7 +92,7 @@ function TimerPage() {
         setElapsedTime(0);
         setIsRunning(false);
         setStartTime(null);
-        setEndTime(null); 
+        setEndTime(null);
         setDescription("");
     };
 
@@ -82,17 +101,34 @@ function TimerPage() {
             <section>
                 <h1>Timer Page</h1>
                 <p>This is the timer page</p>
+
                 <div>
                     <button onClick={startTimer}>Start</button>
                     <button onClick={stopTimer} disabled={!isRunning}>Stop</button>
                     <button onClick={resetTimer} disabled={isRunning}>Reset</button>
                 </div>
-                <div>Elapsed Time: {elapsedTime} seconds</div>
+
+                <div>Elapsed Time: {formatTime(elapsedTime)}</div>
+                <div>
                 <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Enter description"
+                    placeholder="What tasks are you tackling today?"
                 ></textarea>
+                </div>
+                <div>
+                <select
+                    value={selectedClientId}
+                    onChange={(e) => setSelectedClientId(e.target.value)}
+                >
+                    {clients.map((client) => (
+                        <option key={client.clientid} value={client.clientid}>
+                            {client.name}
+                        </option>
+                    ))}
+                </select>
+                </div>
+
             </section>
             <Quotes />
         </>
@@ -100,15 +136,3 @@ function TimerPage() {
 }
 
 export default TimerPage;
-
-
-//to do's or to fix:
-// project id needs to be connected to client id - so when user is on the timer page
-//we see a list of clients - like in a dropdown 
-//after client gets selected this time entry is connected to that project id, client id
-//maybe i should change that in the backend - project id insta
-//logic error: timers and entries should both be connected to clientid data
-//there should not be any projectid
-
-//frontend - dropdown selecting client 
-//check how we did this in the add warehouses form

@@ -63,6 +63,7 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
 - **PATCH `/clients/:id`**: Edit client by ID.
 - **DELETE `/clients/:id`**: Delete client by ID.
 - **GET `/clients/:id/invoices`**: Get all invoices related to client with ID.
+- **GET `/clients/:id/entries`**: Get all entries related to client with ID.
 
 ```jsx
 {
@@ -80,16 +81,16 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
 - **POST `/timers`**: Start a new timer.
 - **GET `/timers/:id`**: Get timer details.
 - **PATCH `/timers/:id`**: Edit timer details.
-- **DELETE `/timers/:id`**: Delete timer.
+- **DELETE `/timers/:id`**: Delete timer details.
 
 ```jsx
 {
-    timerid: 4,
-    starttime: '2024-02-04 10:15:00',
-    endtime: '2024-02-04 12:45:00',
-    duration: 9000,
-    description: 'Client review meeting for Project D',
-    projectid: 4,
+    timerid: 1,
+    starttime: '2024-02-01 08:00:00',
+    endtime: '2024-02-01 10:00:00',
+    duration: 7200,
+    description: 'Project A kickoff meeting',
+    clientid: 1,
   }
 ```
 
@@ -104,11 +105,20 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
 
 ```jsx
 {
-      entryid: 8,
-      timerid: 8,
-      date: '2024-02-08',
-      hours: 2.25,
-      description: 'Project B: Frontend styling and responsive design adjustments',
+    entryid: 5,
+    timerid: 5,
+    clientid: 5,
+    date: '2024-02-05',
+    hours: 3.0,
+    description: 'Final testing and quality assurance for Project E',
+  },
+    // Manual entries for Project C that are not part of the timer as they were entered manually via entries
+    {
+      entryid: 6,
+      clientid: 3,
+      date: '2024-02-09',
+      hours: 1.75,
+      description: 'Project C: Additional UX research and user interviews',
     }
 ```
 
@@ -119,6 +129,17 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
 - **GET `/invoices/:id`**: Get invoice by ID.
 - **PATCH `/invoices/:id`**: Edit invoice by ID.
 - **DELETE `/invoices/:id`**: Delete invoice by ID.
+
+```jsx
+ {
+      invoiceid: 2,
+      clientid: 2,
+      issuedate: '2024-03-02',
+      duedate: '2024-04-02',
+      totalamount: 750.00,
+      status: 'Paid',
+    }
+```
 
 ### Auth
 
@@ -131,7 +152,7 @@ ProjectPacer will initially support a single user without authentication, with p
 - Create server
     - Express project with routing
 - Create MySQL Database with seed data
-- Feature: Time Tracker (basic requirements: start & pause )
+- Feature: Time Tracker (basic requirements: start, pause and reset)
 - Feature: Time entries page & post time entries 
 - Feature: Time Tracker with Comments (ability to add comments to time entry)
 - Feature: Deleting capability 
@@ -146,3 +167,4 @@ ProjectPacer will initially support a single user without authentication, with p
 ## Nice-to-haves
 - **Edit Time Entries, Notes, Invoices Functionality:** To enhance the UX of the app but only if I have extra time to set this up. 
 - **Multi-User Support:** Future versions will include functionalities for team or multiple user environments.
+- **Time Entries connected to Client IDs:** 

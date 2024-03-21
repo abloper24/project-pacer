@@ -30,12 +30,12 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
 ### Tech Stack
 
 - **Frontend:** React.js, SASS, and React Router.
-- **Backend:** Node.js, Express for server-side logic, (For future development: database for data storage).
-- **Libraries:** jsPDF for PDF generation, axios for API requests, (maybe also Redux for easier state management).
+- **Backend:** Node.js, Express for server-side logic, MySQL database for data storage.
+- **Libraries:** jsPDF for PDF generation, axios for API requests.
 
 ### APIs
 
-- ZenQuotes.io - https://zenquotes.io/
+- Quotes on Design - https://quotesondesign.com/api/
 
 ### Sitemap
 
@@ -130,8 +130,9 @@ ProjectPacer will initially support a single user without authentication, with p
     - React project with routes and boilerplate pages
 - Create server
     - Express project with routing
+- Create MySQL Database with seed data
 - Feature: Time Tracker (basic requirements: start & pause )
-- Feature: Time entries page & post time entries (backend data storage - now with json file)
+- Feature: Time entries page & post time entries 
 - Feature: Time Tracker with Comments (ability to add comments to time entry)
 - Feature: Deleting capability 
 - ZenQuotes API Connection
@@ -143,6 +144,5 @@ ProjectPacer will initially support a single user without authentication, with p
 - Demo Day
 
 ## Nice-to-haves
-- **Database Utilization:** For comprehensive data management.
 - **Edit Time Entries, Notes, Invoices Functionality:** To enhance the UX of the app but only if I have extra time to set this up. 
 - **Multi-User Support:** Future versions will include functionalities for team or multiple user environments.

@@ -55,14 +55,70 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
 
 ### Endpoints
 
-**POST /time-entries/:id**
-- add time entry 
+#### **1. Clients**
 
-**GET /time-entries/:id**
-- get time entry by id
+- **GET `/clients`**: Get all clients.
+- **POST `/clients`**: Add a new client.
+- **GET `/clients/:id`**: Get client by ID.
+- **PATCH `/clients/:id`**: Edit client by ID.
+- **DELETE `/clients/:id`**: Delete client by ID.
+- **GET `/clients/:id/invoices`**: Get all invoices related to client with ID.
 
-**DELETE /time-entries/:id**
-- delete time entry by id
+```jsx
+{
+        clientid: 1,
+        name: 'Alice Johnson',
+        email: 'alice@example.com',
+        address: '1234 Main St',
+        phone: '604-441-1001',
+    }
+```
+
+#### **2. Timers**
+
+- **GET `/timers`**: Get all timers.
+- **POST `/timers`**: Start a new timer.
+- **GET `/timers/:id`**: Get timer details.
+- **PATCH `/timers/:id`**: Edit timer details.
+- **DELETE `/timers/:id`**: Delete timer.
+
+```jsx
+{
+    timerid: 4,
+    starttime: '2024-02-04 10:15:00',
+    endtime: '2024-02-04 12:45:00',
+    duration: 9000,
+    description: 'Client review meeting for Project D',
+    projectid: 4,
+  }
+```
+
+#### **3. Entries**
+
+- **GET `/entries`**: Get all time entries.
+- **POST `/entries`**: Add new time entry.
+- **GET `/entries/:id`**: Get details of entry by ID.
+- **PATCH `/entries/:id`**: Edit entry by ID.
+- **DELETE `/entries/:id`**: Delete entry by ID
+- **GET `/entries/by-timer/:timerid`**: Get entries by timer id. (might remove - not sure if logic works yet)
+
+```jsx
+{
+      entryid: 8,
+      timerid: 8,
+      date: '2024-02-08',
+      hours: 2.25,
+      description: 'Project B: Frontend styling and responsive design adjustments',
+    }
+```
+
+#### **4. Invoices**
+
+- **GET `/invoices`**: Get all invoices.
+- **POST `/invoices`**: Add new invoice.
+- **GET `/invoices/:id`**: Get invoice by ID.
+- **PATCH `/invoices/:id`**: Edit invoice by ID.
+- **DELETE `/invoices/:id`**: Delete invoice by ID.
 
 ### Auth
 

@@ -47,17 +47,18 @@ function App() {
   // }, []);
 
   //get all timer entries
-  useEffect(() => {
-    const getTimerEntries = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/timers');
-        // console.log(response.data)
-        setTimerEntries(response.data);
-      } catch (error) {
-        console.error('Error getting entries:', error);
-      }
-    };
+  //outside useeffect so it can be passed to entries and timer page to refresh
 
+  const getTimerEntries = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/timers');
+      // console.log(response.data)
+      setTimerEntries(response.data);
+    } catch (error) {
+      console.error('Error getting entries:', error);
+    }
+  };
+  useEffect(() => {
     getTimerEntries();
   }, []);
 
@@ -68,8 +69,8 @@ function App() {
       <BrowserRouter>
       <Header />
       <Routes>
-        <Route path='/' element={<TimerPage clients={clients}/>} />
-        <Route path='/entries' element={<EntriesPage clients={clients} timerEntries={timerEntries}/>} />
+        <Route path='/' element={<TimerPage clients={clients}   getTimerEntries={getTimerEntries}/>} />
+        <Route path='/entries' element={<EntriesPage clients={clients} timerEntries={timerEntries} getTimerEntries={getTimerEntries}/>} />
         <Route path='/invoices' element={<InvoicesPage />} />
         <Route path="*" element={<TimerPage clients={clients}/>} />
       </Routes>

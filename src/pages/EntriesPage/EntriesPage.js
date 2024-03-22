@@ -1,27 +1,56 @@
 import "./EntriesPage.scss";
 import deleteIcon from '../../assets/images/icons/delete_outline-24px.svg'
 import editIcon from '../../assets/images/icons/edit-24px.svg'
-// import DeleteModal from "../../components/DeleteModal/DeleteModal";
+import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import React, { useState } from "react";
+import axios from "axios";
 
 
 
-function EntriesPage({ clients, timerEntries }) {
+function EntriesPage({ clients, timerEntries,  getTimerEntries }) {
     // console.log(clients)
     // console.log(entries)
-    // console.log(timerEntries[0].timerid)
+    // console.log(timerEntries[0])
 
     const [selectedEntries, setSelectedEntries] = useState([]);
+    const [selectedEntryDelete, setselectedEntryDelete] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    //sorting entries from new to old
     timerEntries.sort((a, b) => new Date(b.starttime) - new Date(a.starttime));
 
-      const handleSelectCheckbox = (timerId) => {
+    //selecting entries with checkbox 
+    const handleSelectCheckbox = (timerId) => {
         if (selectedEntries.includes(timerId)) {
             setSelectedEntries(selectedEntries.filter(id => id !== timerId));
         } else {
             setSelectedEntries([...selectedEntries, timerId]);
         }
     };
-  
+
+    //delete modal pop-up
+    const openModal = (timerEntry) => {
+        setselectedEntryDelete(timerEntry);
+        setIsModalOpen(true);
+    };
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setselectedEntryDelete(null);
+    };
+
+    //delete axios request
+    const deleteEntry = async () => {
+        try {
+            await axios.delete(`http://localhost:8080/timers/${selectedEntryDelete.timerid}`);
+            console.log(`Entry with id ${selectedEntryDelete.timerid} deleted.`);
+            closeModal();
+            getTimerEntries(); //to call all entries again to be updated on the page
+        } catch (error) {
+            console.error("Error deleting time entry:", error);
+        }
+    };
+    //console.log(selectedEntryDelete.timerid) 
+
 
     return (
         <>
@@ -58,10 +87,10 @@ function EntriesPage({ clients, timerEntries }) {
         </div> */}
 
                 <div>
-                {timerEntries.map((timerEntry) => (
+                    {timerEntries.map((timerEntry) => (
                         <div key={timerEntry.timerid}>
                             <div>
-                            <input
+                                <input
                                     type="checkbox"
                                     checked={selectedEntries.includes(timerEntry.timerid)}
                                     onChange={() => handleSelectCheckbox(timerEntry.timerid)}
@@ -76,8 +105,22 @@ function EntriesPage({ clients, timerEntries }) {
                             <div>Client Name: {clients.find(client => client.clientid === timerEntry.clientid)?.name}</div>
                             <div>Billing Status:</div>
                             <div>
-                                <button><img src={deleteIcon} alt="Delete"/></button>
-                                <button><img src={editIcon} alt="Edit"/></button>
+                                <button
+                                    onClick={() => openModal(timerEntry)}
+                                >
+                                    <img src={deleteIcon} alt="Delete" />
+                                </button>
+
+                                <DeleteModal
+                                        isOpen={isModalOpen}
+                                        onClose={closeModal}
+                                        onDelete={deleteEntry}
+                                        selectedEntryDelete={selectedEntryDelete}
+                                        clients={clients}
+                                    />
+                                <button>
+                                    <img src={editIcon} alt="Edit" />
+                                </button>
                             </div>
                         </div>
                     ))}
@@ -91,13 +134,12 @@ export default EntriesPage;
 
 
 
-  //combine entries - timer & manual entries
-    // const combinedEntries = [...entries, ...timerEntries];
-    //sort them most recent on top - b before a
+//combine entries - timer & manual entries
+// const combinedEntries = [...entries, ...timerEntries];
+//sort them most recent on top - b before a
 
 
-  // const compositeKey = (combinedEntries) => `${combinedEntries.entryid}-${combinedEntries.timerid}`;
-    // console.log(combinedEntries)
+// const compositeKey = (combinedEntries) => `${combinedEntries.entryid}-${combinedEntries.timerid}`;
+// console.log(combinedEntries)
 
 
-  

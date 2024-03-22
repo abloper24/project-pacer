@@ -9,7 +9,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: $instock-black-70;
+    // background-color: $instock-black-70;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,21 +37,21 @@
   }
 
   &__title {
-    @include m-page-header;
+    // @include m-page-header;
     padding-bottom: 24px;
-    color: $instock-black;
-    @include tablet {
-      @include td-page-header;
-    }
+    // color: $instock-black;
+    // @include tablet {
+    //   @include td-page-header;
+    // }
   }
 
-  &__description {
-    @include m-body-large;
-    color: $instock-black;
-    @include tablet {
-      @include td-body-large;
-    }
-  }
+  // &__description {
+  //   @include m-body-large;
+  //   // color: $instock-black;
+  //   @include tablet {
+  //     @include td-body-large;
+  //   }
+  // }
 
   &__btn-container {
     margin-top: auto; 
@@ -66,14 +66,14 @@
 
   &__cancel-btn,
   &__delete-btn {
-    @include m-button;
-    @include m-text-button;
+    // @include m-button;
+    // @include m-text-button;
     flex: 1 1 auto;
     margin: 10px;
     border: none;
     cursor: pointer;
     @include tablet {
-      @include td-button;
+      // @include td-button;
       flex: none;
       margin: 0 10px;
       padding: 10px 20px;
@@ -81,12 +81,12 @@
   }
 
   &__cancel-btn {
-    color: $instock-black;
+    // color: $instock-black;
     background: white;
-    border: solid 1px $cloud;
+    // border: solid 1px $cloud;
     &:hover {
-      border: solid 1px $instock-blue;
-      color: $instock-blue;
+      // border: solid 1px $instock-blue;
+      // color: $instock-blue;
     }
 
     @include tablet {
@@ -96,10 +96,10 @@
   }
 
   &__delete-btn {
-    background-color: $red;
+    background-color: red;
     color: white;
     &:hover {
-      background-color: $instock-black;
+      // background-color: $instock-black;
     }
   }
 
@@ -110,6 +110,6 @@
     border: none;
     background: none;
     cursor: pointer;
-    color: $instock-black;
+    // color: $instock-black;
   }
 }

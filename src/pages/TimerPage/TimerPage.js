@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { format as formatDate } from 'date-fns';
 
-function TimerPage({ clients }) {
+function TimerPage({ clients, getTimerEntries }) {
     const [isRunning, setIsRunning] = useState(false);
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
@@ -14,6 +14,7 @@ function TimerPage({ clients }) {
 
     const [selectedClientId, setSelectedClientId] = useState("");
     // console.log(clients)
+    // console.log(getTimerEntries)
 
     //client data
     useEffect(() => {
@@ -74,6 +75,7 @@ function TimerPage({ clients }) {
                 });
                 console.log(response.data);
                 resetTimer();
+                getTimerEntries(); //to call all timer entries again
             } catch (error) {
                 console.error("Error logging time entry:", error);
             }

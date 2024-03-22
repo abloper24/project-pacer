@@ -3,29 +3,33 @@ import deleteIcon from '../../assets/images/icons/delete_outline-24px.svg'
 import editIcon from '../../assets/images/icons/edit-24px.svg'
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
 
-function EntriesPage({ clients, timerEntries,  getTimerEntries }) {
+function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntries }) {
     // console.log(clients)
     // console.log(entries)
     // console.log(timerEntries[0])
-
-    const [selectedEntries, setSelectedEntries] = useState([]);
+    
+    const [uiSelectedEntries, setUISelectedEntries] = useState([]);
     const [selectedEntryDelete, setselectedEntryDelete] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const navigate = useNavigate();
 
     //sorting entries from new to old
     timerEntries.sort((a, b) => new Date(b.starttime) - new Date(a.starttime));
 
     //selecting entries with checkbox 
     const handleSelectCheckbox = (timerId) => {
-        if (selectedEntries.includes(timerId)) {
-            setSelectedEntries(selectedEntries.filter(id => id !== timerId));
-        } else {
-            setSelectedEntries([...selectedEntries, timerId]);
-        }
+        const newSelectedEntries = uiSelectedEntries.includes(timerId) ? uiSelectedEntries.filter(id => id !== timerId) : [...uiSelectedEntries, timerId];
+        setUISelectedEntries(newSelectedEntries);
+
+        // Now, update the selectedEntries in the parent component (App.js)
+        const entriesToUpdate = timerEntries.filter(entry => newSelectedEntries.includes(entry.timerid));
+        setSelectedEntries(entriesToUpdate); // Assuming timerId uniquely identifies your entries
     };
 
     //delete modal pop-up
@@ -51,12 +55,22 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries }) {
     };
     //console.log(selectedEntryDelete.timerid) 
 
+    const handleCreateInvoice = () => {
+        navigate('/invoices'); 
+    };
+    
 
     return (
         <>
             <section>
                 <h1>Entries</h1>
                 <p> this is the time entries page</p>
+
+                <div>
+                <button onClick={handleCreateInvoice}>
+                    Create Invoice
+                </button>
+                </div>
                 {/* will add manual entry form later */}
                 {/* <form>
                     <input 
@@ -92,7 +106,7 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries }) {
                             <div>
                                 <input
                                     type="checkbox"
-                                    checked={selectedEntries.includes(timerEntry.timerid)}
+                                    checked={uiSelectedEntries.includes(timerEntry.timerid)}
                                     onChange={() => handleSelectCheckbox(timerEntry.timerid)}
                                 />
 
@@ -125,6 +139,7 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries }) {
                         </div>
                     ))}
                 </div>
+             
             </section>
         </>
     )

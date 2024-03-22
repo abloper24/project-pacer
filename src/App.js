@@ -14,6 +14,7 @@ function App() {
   const [clients, setClients] = useState([]);
   // const [entries, setEntries] = useState([]);
   const [timerEntries, setTimerEntries] = useState([]);
+  const [selectedEntries, setSelectedEntries] = useState([]); // New state for selected entries
 
   //get all clients data - doing it here as I will need this data 
   //in the timer, entries and invoice page
@@ -70,8 +71,8 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<TimerPage clients={clients}   getTimerEntries={getTimerEntries}/>} />
-        <Route path='/entries' element={<EntriesPage clients={clients} timerEntries={timerEntries} getTimerEntries={getTimerEntries}/>} />
-        <Route path='/invoices' element={<InvoicesPage />} />
+        <Route path='/entries' element={<EntriesPage clients={clients} timerEntries={timerEntries} getTimerEntries={getTimerEntries} setSelectedEntries={setSelectedEntries}/>} />
+        <Route path='/invoices' element={<InvoicesPage selectedEntries={selectedEntries} clients={clients}/>} />
         <Route path="*" element={<TimerPage clients={clients}/>} />
       </Routes>
       

@@ -3,10 +3,12 @@ import Header from './components/Header/Header';
 import TimerPage from './pages/TimerPage/TimerPage';
 import InvoicesPage from './pages/InvoicesPage/InvoicesPage';
 import EntriesPage from './pages/EntriesPage/EntriesPage';
+import AddNewEntryPage from './pages/AddNewEntryPage/AddNewEntryPage';
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 
 
 
@@ -72,6 +74,7 @@ function App() {
       <Routes>
         <Route path='/' element={<TimerPage clients={clients}   getTimerEntries={getTimerEntries}/>} />
         <Route path='/entries' element={<EntriesPage clients={clients} timerEntries={timerEntries} getTimerEntries={getTimerEntries} setSelectedEntries={setSelectedEntries}/>} />
+        <Route path='/entries/add' element={<AddNewEntryPage clients={clients} timerEntries={timerEntries} getTimerEntries={getTimerEntries} setSelectedEntries={setSelectedEntries}/>} />
         <Route path='/invoices' element={<InvoicesPage selectedEntries={selectedEntries} clients={clients}/>} />
         <Route path="*" element={<TimerPage clients={clients}/>} />
       </Routes>

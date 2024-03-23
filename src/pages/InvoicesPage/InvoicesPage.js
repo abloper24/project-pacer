@@ -7,7 +7,6 @@ import 'jspdf-autotable';
 
 
 function InvoicesPage({ selectedEntries, clients }) {
-      // console.log(selectedEntries)
     const [chosenClientId, setChosenClientId] = useState("");
     const [invoiceDate, setInvoiceDate] = useState("");
     const [invoiceDueDate, setInvoiceDueDate] = useState("");

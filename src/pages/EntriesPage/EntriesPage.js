@@ -58,6 +58,10 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
     const handleCreateInvoice = () => {
         navigate('/invoices'); 
     };
+
+    const handleAddEntry = () => {
+        navigate('/entries/add'); 
+    };
     
 
     return (
@@ -65,6 +69,11 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
             <section>
                 <h1>Entries</h1>
                 <p> this is the time entries page</p>
+                <div>
+                <button onClick={handleAddEntry}>
+                    Add New Entry
+                </button>
+                </div>
 
                 <div>
                 <button onClick={handleCreateInvoice}>

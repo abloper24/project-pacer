@@ -2,9 +2,9 @@ import "./EntriesPage.scss";
 import deleteIcon from '../../assets/images/icons/delete_outline-24px.svg'
 import editIcon from '../../assets/images/icons/edit-24px.svg'
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 
 
@@ -62,6 +62,17 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
     const handleAddEntry = () => {
         navigate('/entries/add'); 
     };
+
+    useEffect(() => {
+        // Define a function that fetches entries
+        const fetchEntries = async () => {
+            // Your existing logic to fetch entries
+            getTimerEntries();
+        };
+    
+        // Call the function to fetch entries
+        fetchEntries();
+    }, []);
     
 
     return (

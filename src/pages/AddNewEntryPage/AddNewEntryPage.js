@@ -1,91 +1,99 @@
-import "./AddNewEntryPage.scss";
-import deleteIcon from '../../assets/images/icons/delete_outline-24px.svg'
-import editIcon from '../../assets/images/icons/edit-24px.svg'
-import DeleteModal from "../../components/DeleteModal/DeleteModal";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
-
 function AddNewEntryPage({ clients }) {
-    // console.log(clients)
-    // console.log(entries)
-    // console.log(timerEntries[0])
-    
-  
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [entryDate, setEntryDate] = useState("");
+    const [duration, setDuration] = useState("");
+    const [task, setTask] = useState("");
+    const [selectedClientId, setSelectedClientId] = useState("");
 
     const navigate = useNavigate();
 
-    //delete modal pop-up
-    const openModal = (timerEntry) => {
-        // setselectedEntryDelete(timerEntry);
-        setIsModalOpen(true);
-    };
-    const closeModal = () => {
-        setIsModalOpen(false);
-        // setselectedEntryDelete(null);
+    useEffect(() => {
+        if (clients.length > 0) {
+            setSelectedClientId(clients[0].clientid.toString());
+        }
+    }, [clients]);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            //  HH:MM format to duration in seconds (backend format)
+            const [hours, minutes] = duration.split(":").map(Number);
+            const durationInSeconds = (hours * 60 * 60) + (minutes * 60);
+
+            // Using entryDate and assuming the start time is at the beginning of the day
+            const startTime = new Date(entryDate);
+            const endTime = new Date(startTime.getTime() + durationInSeconds * 1000);
+
+            // starttime and endttime times as strings to send to the backend
+            const formattedStartTime = `${entryDate}T00:00:00`;
+            const formattedEndTime = endTime.toISOString().split('.')[0].replace('T', ' ');
+
+            const response = await axios.post("http://localhost:8080/timers", {
+                starttime: formattedStartTime,
+                endtime: formattedEndTime,
+                duration: durationInSeconds,
+                description: task,
+                clientid: selectedClientId,
+            });
+
+            console.log(response.data);
+
+            navigate("/entries");
+        } catch (error) {
+            console.error("Error adding new entry:", error);
+
+        }
     };
 
-
-
-    const handleCreateInvoice = () => {
-        navigate('/invoices'); 
-    };
-
-    const handleAddEntry = () => {
-        navigate('/invoices'); 
-    };
-    
 
     return (
-        <>
-            <section>
-                <h1>Add a New Entry Page</h1>
-                <p> this is the page to add new entries </p>
-                
-               <form>
-                <label>
-                    Date:
-                </label>
+        <section>
+            <h1>Add a New Entry Page</h1>
+            <form onSubmit={handleSubmit}>
+                <label>Date:</label>
                 <input
-                        type="date"
-                        id="entry-date"
-                        name="entry-date"
-                        // value={invoiceDate}
-                        // onChange={handleDateChange}
-                    />
-                
-                <label>Duration</label>
+                    type="date"
+                    id="entry-date"
+                    name="entry-date"
+                    value={entryDate}
+                    onChange={(e) => setEntryDate(e.target.value)}
+                />
+
+                <label>Duration:</label>
                 <input
-                type="number"
-                id="duration"
-                placeholder="00:00H"
-                
-                ></input>
-                <label>Task</label>
+                    type="text"
+                    id="duration"
+                    placeholder="HH:MM"
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value)}
+                />
+
+                <label>Task:</label>
                 <textarea
-                type="text"
-                id="task-entry"
-                placeholder="What task did you forget to track?"
-                >
-                </textarea>
+                    id="task-entry"
+                    placeholder="What task did you forget to track?"
+                    value={task}
+                    onChange={(e) => setTask(e.target.value)}
+                />
                 <label>Client:</label>
-                <select>
-                    <option>
-                        Clients
-                    </option>
+                <select
+                    value={selectedClientId}
+                    onChange={(e) => setSelectedClientId(e.target.value)}
+                >
+                    {clients.map((client) => (
+                        <option key={client.clientid} value={client.clientid}>
+                            {client.name}
+                        </option>
+                    ))}
                 </select>
-
-
-
-               </form>
-
-             
-            </section>
-        </>
-    )
+                <button type="submit">Add Entry</button>
+            </form>
+        </section>
+    );
 }
 
 export default AddNewEntryPage;

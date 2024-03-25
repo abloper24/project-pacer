@@ -1,6 +1,5 @@
 import "./EntriesPage.scss";
 import deleteIcon from '../../assets/images/icons/delete_outline-24px.svg'
-import editIcon from '../../assets/images/icons/edit-24px.svg'
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -60,6 +59,8 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
             console.error("Error deleting time entry:", error);
         }
     };
+    
+
 
     const handleCreateInvoice = () => {
         navigate('/invoices'); 
@@ -139,7 +140,7 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
                             <div>Duration/Time: {formatDuration(timerEntry.duration)}</div>
                             <div>Task: {timerEntry.description}</div>
                             <div>Client Name: {clients.find(client => client.clientid === timerEntry.clientid)?.name}</div>
-                            <div>Billing Status:</div>
+                            <div>Billing Status: {timerEntry.invoiced ? "Invoiced" : "Not Invoiced"}</div>
                             <div>
                                 <button
                                     onClick={() => openModal(timerEntry)}
@@ -154,9 +155,7 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
                                         selectedEntryDelete={selectedEntryDelete}
                                         clients={clients}
                                     />
-                                <button>
-                                    <img src={editIcon} alt="Edit" />
-                                </button>
+                                
                             </div>
                         </div>
                     ))}

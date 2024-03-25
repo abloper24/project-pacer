@@ -18,7 +18,6 @@ function InvoicesPage({ selectedEntries, clients }) {
     const [invoiceNumber, setInvoiceNumber] = useState("");
 
     const clientForInvoice = clients.find(client => client.clientid === selectedEntries[0]?.clientid) || {};
-
   
     const handleDateChange = (event) => {
         setInvoiceDate(event.target.value);
@@ -96,6 +95,9 @@ function InvoicesPage({ selectedEntries, clients }) {
                 return "No Tax";
         }
     };
+
+   
+      
 
     // build  PDF
     const generatePDF = () => {
@@ -219,8 +221,10 @@ function InvoicesPage({ selectedEntries, clients }) {
             doc.text(line, 14, paymentInstructionsStartY + 7 + (index * 6.5)); 
         });
 
+     
         // save  PDF
         doc.save(`${invoiceNumber}.pdf`);
+
     };
 
 
@@ -330,8 +334,6 @@ function InvoicesPage({ selectedEntries, clients }) {
                 <button type="button" onClick={generatePDF}>
                     Export to PDF
                 </button>
-
-
 
             </form>
 

@@ -38,6 +38,7 @@ function AddNewEntryPage({ clients }) {
                 duration: durationInSeconds,
                 description: task,
                 clientid: selectedClientId,
+                invoiced: false,
             });
 
             console.log(response.data);

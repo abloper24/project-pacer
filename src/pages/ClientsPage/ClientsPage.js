@@ -80,31 +80,6 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
         }
     };
 
-    //edit modal for timer entries
-    // const openEditTimeEntryModal = (timer) => {
-    //     setSelectedTimeEntryToEdit(timer);
-    // };
-
-
-    // const closeEditTimeEntryModal = () => {
-    //     setSelectedTimeEntryToEdit(null);
-    // };
-
-
-
-    // const updateTimeEntry = async (updatedTimeEntryData) => {
-    //     if (selectedTimeEntryToEdit) {
-    //         try {
-    //             await axios.patch(`http://localhost:8080/timers/${selectedTimeEntryToEdit.timerid}`, updatedTimeEntryData);
-    //             closeEditTimeEntryModal();
-    //             getTimerEntries();
-    //         } catch (error) {
-    //             console.error("Error updating time entry:", error);
-    //         }
-    //     }
-    // };
-
-
 
     //delete modal pop-up for clients
     const openClientModal = (client) => {
@@ -222,6 +197,7 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
                                     <div>EndTime: {timer.endtime.slice(11, 19)}</div>
                                     <div>Duration/Time: {formatDuration(timer.duration)}</div>
                                     <div>Task: {timer.description}</div>
+                                    <div>Billing Status: {timer.invoiced ? "Invoiced" : "Not Invoiced"}</div>
                                     <button onClick={() => openModal(timer)}>
                                         <img src={deleteIcon} alt="Delete" />
 

@@ -72,6 +72,7 @@ function TimerPage({ clients, getTimerEntries }) {
                     duration,
                     description,
                     clientid: selectedClientId,
+                    invoiced: false,
                 });
                 console.log(response.data);
                 resetTimer();

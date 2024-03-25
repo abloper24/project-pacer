@@ -53,6 +53,22 @@ function App() {
     getTimerEntries();
   }, []);
 
+  
+//   const markEntriesAsInvoiced = async () => {
+//     for (const entry of selectedEntries) {
+//         try {
+//             await axios.patch(`http://localhost:8080/timers/${entry.timerid}`, {
+//                 invoiced: true
+//             });
+//             console.log(`Entry ${entry.timerid} marked as invoiced.`);
+//         } catch (error) {
+//             console.error(`Error updating time entry ${entry.timerid}:`, error);
+//         }
+//     }
+
+//     getTimerEntries();
+// };
+// console.log(markEntriesAsInvoiced)
 
 
   return (

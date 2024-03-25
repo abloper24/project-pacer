@@ -25,9 +25,9 @@ function Header() {
                     </button>
                 </NavLink>
 
-                <NavLink to={'/invoices'} className='nav__link'>
+                <NavLink to={'/clients'} className='nav__link'>
                     <button className="nav__btn">
-                        Invoices <img src={invoices} alt="invoices icon" />
+                        Clients <img src={invoices} alt="invoices icon" />
                     </button>
                 </NavLink>
 

@@ -24,7 +24,7 @@ function AddNewEntryPage({ clients }) {
             const [hours, minutes] = duration.split(":").map(Number);
             const durationInSeconds = (hours * 60 * 60) + (minutes * 60);
 
-            // Using entryDate and assuming the start time is at the beginning of the day
+            // entryDate the start time is at the beginning of the day
             const startTime = new Date(entryDate);
             const endTime = new Date(startTime.getTime() + durationInSeconds * 1000);
 

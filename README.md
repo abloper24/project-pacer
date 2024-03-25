@@ -62,8 +62,7 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
 - **GET `/clients/:id`**: Get client by ID.
 - **PATCH `/clients/:id`**: Edit client by ID.
 - **DELETE `/clients/:id`**: Delete client by ID.
-- **GET `/clients/:id/invoices`**: Get all invoices related to client with ID.
-- **GET `/clients/:id/entries`**: Get all entries related to client with ID.
+- **GET `/clients/:id/timers`**: Get all entries related to client with ID.
 
 ```jsx
 {

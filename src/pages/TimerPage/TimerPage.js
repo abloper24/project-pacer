@@ -101,20 +101,6 @@ function TimerPage({ clients, getTimerEntries }) {
     };
 
 
-//   useEffect(() => {
-//     const getTimerEntries = async () => {
-//       try {
-//         const response = await axios.get('http://localhost:8080/timers');
-//         console.log(response.data)
-//         // setEntries(response.data);
-//       } catch (error) {
-//         console.error('Error getting entries:', error);
-//       }
-//     };
-
-//     getTimerEntries();
-//   }, []);
-
     return (
         <>
             <section>

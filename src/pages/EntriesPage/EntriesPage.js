@@ -9,10 +9,6 @@ import React, { useState, useEffect } from "react";
 
 
 function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntries }) {
-    // console.log(clients)
-    // console.log(entries)
-    // console.log(timerEntries[0])
-    
     const [uiSelectedEntries, setUISelectedEntries] = useState([]);
     const [selectedEntryDelete, setselectedEntryDelete] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,7 +30,6 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
         return `${pad(hours)}:${pad(minutes)}`; 
     }
       
-
     //selecting entries with checkbox 
     const handleSelectCheckbox = (timerId) => {
         const newSelectedEntries = uiSelectedEntries.includes(timerId) ? uiSelectedEntries.filter(id => id !== timerId) : [...uiSelectedEntries, timerId];
@@ -65,7 +60,6 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
             console.error("Error deleting time entry:", error);
         }
     };
-    //console.log(selectedEntryDelete.timerid) 
 
     const handleCreateInvoice = () => {
         navigate('/invoices'); 

@@ -42,7 +42,7 @@ function AddNewEntryPage({ clients }) {
 
             console.log(response.data);
 
-            navigate("/entries");
+            navigate("/timers");
         } catch (error) {
             console.error("Error adding new entry:", error);
 

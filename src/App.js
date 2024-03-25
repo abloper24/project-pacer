@@ -73,8 +73,8 @@ function App() {
       <Header />
       <Routes>
         <Route path='/' element={<TimerPage clients={clients}   getTimerEntries={getTimerEntries}/>} />
-        <Route path='/entries' element={<EntriesPage clients={clients} timerEntries={timerEntries} getTimerEntries={getTimerEntries} setSelectedEntries={setSelectedEntries}/>} />
-        <Route path='/entries/add' element={<AddNewEntryPage clients={clients} timerEntries={timerEntries} getTimerEntries={getTimerEntries} setSelectedEntries={setSelectedEntries}/>} />
+        <Route path='/timers' element={<EntriesPage clients={clients} timerEntries={timerEntries} getTimerEntries={getTimerEntries} setSelectedEntries={setSelectedEntries}/>} />
+        <Route path='/timers/add' element={<AddNewEntryPage clients={clients} timerEntries={timerEntries} getTimerEntries={getTimerEntries} setSelectedEntries={setSelectedEntries}/>} />
         <Route path='/invoices' element={<InvoicesPage selectedEntries={selectedEntries} clients={clients}/>} />
         <Route path="*" element={<TimerPage clients={clients}/>} />
       </Routes>

@@ -51,7 +51,7 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
 ### Data
 
 - **Time Entries:** Enhanced to include start/end times, duration, task-specific comments, and invoicing status.
-- **Invoices:** Detailed with invoice ID, associated time entries, total amount, status, and relevant dates.
+- **Clients:** Detailed with ID, associated time entries.
 
 ### Endpoints
 
@@ -94,51 +94,6 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
   }
 ```
 
-#### **3. Entries**
-
-- **GET `/entries`**: Get all time entries.
-- **POST `/entries`**: Add new time entry.
-- **GET `/entries/:id`**: Get details of entry by ID.
-- **PATCH `/entries/:id`**: Edit entry by ID.
-- **DELETE `/entries/:id`**: Delete entry by ID
-
-```jsx
-{
-    entryid: 5,
-    timerid: 5,
-    clientid: 5,
-    date: '2024-02-05',
-    hours: 3.0,
-    description: 'Final testing and quality assurance for Project E',
-  },
-    // Manual entries for Project C that are not part of the timer as they were entered manually via entries
-    {
-      entryid: 6,
-      clientid: 3,
-      date: '2024-02-09',
-      hours: 1.75,
-      description: 'Project C: Additional UX research and user interviews',
-    }
-```
-
-#### **4. Invoices**
-
-- **GET `/invoices`**: Get all invoices.
-- **POST `/invoices`**: Add new invoice.
-- **GET `/invoices/:id`**: Get invoice by ID.
-- **PATCH `/invoices/:id`**: Edit invoice by ID.
-- **DELETE `/invoices/:id`**: Delete invoice by ID.
-
-```jsx
- {
-      invoiceid: 2,
-      clientid: 2,
-      issuedate: '2024-03-02',
-      duedate: '2024-04-02',
-      totalamount: 750.00,
-      status: 'Paid',
-    }
-```
 
 ### Auth
 
@@ -155,7 +110,6 @@ ProjectPacer will initially support a single user without authentication, with p
 - Feature: Time entries page & post time entries 
 - Feature: Time Tracker with Comments (ability to add comments to time entry)
 - Feature: Deleting capability 
-- ZenQuotes API Connection
 - Front-End Design of Time Tracker 
 - Feature: Invoicing  
 - Front-End Design of Invoicing
@@ -166,4 +120,3 @@ ProjectPacer will initially support a single user without authentication, with p
 ## Nice-to-haves
 - **Edit Time Entries, Notes, Invoices Functionality:** To enhance the UX of the app but only if I have extra time to set this up. 
 - **Multi-User Support:** Future versions will include functionalities for team or multiple user environments.
-- **Time Entries connected to Client IDs:** 

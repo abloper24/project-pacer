@@ -22,14 +22,26 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
     //sorting entries from new to old
     timerEntries.sort((a, b) => new Date(b.starttime) - new Date(a.starttime));
 
+    //format duration into HH:MM
+    function formatDuration(seconds) {
+        const pad = (num) => (num < 10 ? `0${num}` : num);
+        let hours = Math.floor(seconds / 3600);
+        let minutes = Math.ceil((seconds % 3600) / 60);
+        if (minutes === 60) {
+            hours++;
+            minutes = 0;
+        }
+        return `${pad(hours)}:${pad(minutes)}`; 
+    }
+      
+
     //selecting entries with checkbox 
     const handleSelectCheckbox = (timerId) => {
         const newSelectedEntries = uiSelectedEntries.includes(timerId) ? uiSelectedEntries.filter(id => id !== timerId) : [...uiSelectedEntries, timerId];
         setUISelectedEntries(newSelectedEntries);
 
-        // Now, update the selectedEntries in the parent component (App.js)
         const entriesToUpdate = timerEntries.filter(entry => newSelectedEntries.includes(entry.timerid));
-        setSelectedEntries(entriesToUpdate); // Assuming timerId uniquely identifies your entries
+        setSelectedEntries(entriesToUpdate); 
     };
 
     //delete modal pop-up
@@ -60,17 +72,13 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
     };
 
     const handleAddEntry = () => {
-        navigate('/entries/add'); 
+        navigate('/timers/add'); 
     };
 
     useEffect(() => {
-        // Define a function that fetches entries
         const fetchEntries = async () => {
-            // Your existing logic to fetch entries
             getTimerEntries();
         };
-    
-        // Call the function to fetch entries
         fetchEntries();
     }, []);
     
@@ -134,7 +142,7 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
                             <div>Date: {timerEntry.starttime.slice(0, 10)}</div>
                             <div>StartTime: {timerEntry.starttime.slice(11, 19)}</div>
                             <div>EndTime: {timerEntry.endtime.slice(11, 19)}</div>
-                            <div>Duration/Time: {timerEntry.duration}</div>
+                            <div>Duration/Time: {formatDuration(timerEntry.duration)}</div>
                             <div>Task: {timerEntry.description}</div>
                             <div>Client Name: {clients.find(client => client.clientid === timerEntry.clientid)?.name}</div>
                             <div>Billing Status:</div>
@@ -166,15 +174,4 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
 }
 
 export default EntriesPage;
-
-
-
-//combine entries - timer & manual entries
-// const combinedEntries = [...entries, ...timerEntries];
-//sort them most recent on top - b before a
-
-
-// const compositeKey = (combinedEntries) => `${combinedEntries.entryid}-${combinedEntries.timerid}`;
-// console.log(combinedEntries)
-
 

@@ -7,11 +7,15 @@ import React, { useState, useEffect } from "react";
 
 
 
-function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntries }) {
+function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntries }) {
+
+    // updateCheckedTimers, checkedTimers, markEntryAsInvoiced
+    
     const [uiSelectedEntries, setUISelectedEntries] = useState([]);
     const [selectedEntryDelete, setselectedEntryDelete] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+   
     const navigate = useNavigate();
 
     //sorting entries from new to old
@@ -26,17 +30,34 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
             hours++;
             minutes = 0;
         }
-        return `${pad(hours)}:${pad(minutes)}`; 
+        return `${pad(hours)}:${pad(minutes)}`;
     }
-      
+
     //selecting entries with checkbox 
     const handleSelectCheckbox = (timerId) => {
         const newSelectedEntries = uiSelectedEntries.includes(timerId) ? uiSelectedEntries.filter(id => id !== timerId) : [...uiSelectedEntries, timerId];
         setUISelectedEntries(newSelectedEntries);
 
         const entriesToUpdate = timerEntries.filter(entry => newSelectedEntries.includes(entry.timerid));
-        setSelectedEntries(entriesToUpdate); 
+        setSelectedEntries(entriesToUpdate);
+
+
     };
+   // Call markEntryAsInvoiced to update backend and UI
+    // const handleCheckboxChange = async (timerId) => {
+    
+    //     if (checkedTimers[timerId]) {
+    //         return; 
+    //     }
+
+    //     try {
+    //         await markEntryAsInvoiced(timerId);
+    //     } catch (error) {
+    //         console.error("Error marking entry as invoiced:", error);
+    //     }
+    // };
+
+
 
     //delete modal pop-up
     const openModal = (timerEntry) => {
@@ -59,15 +80,15 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
             console.error("Error deleting time entry:", error);
         }
     };
-    
+
 
 
     const handleCreateInvoice = () => {
-        navigate('/invoices'); 
+        navigate('/invoices');
     };
 
     const handleAddEntry = () => {
-        navigate('/timers/add'); 
+        navigate('/timers/add');
     };
 
     useEffect(() => {
@@ -76,7 +97,7 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
         };
         fetchEntries();
     }, []);
-    
+
 
     return (
         <>
@@ -84,15 +105,15 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
                 <h1>Entries</h1>
                 <p> this is the time entries page</p>
                 <div>
-                <button onClick={handleAddEntry}>
-                    Add New Entry
-                </button>
+                    <button onClick={handleAddEntry}>
+                        Add New Entry
+                    </button>
                 </div>
 
                 <div>
-                <button onClick={handleCreateInvoice}>
-                    Create Invoice
-                </button>
+                    <button onClick={handleCreateInvoice}>
+                        Create Invoice
+                    </button>
                 </div>
                 {/* will add manual entry form later */}
                 {/* <form>
@@ -132,6 +153,14 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
                                     checked={uiSelectedEntries.includes(timerEntry.timerid)}
                                     onChange={() => handleSelectCheckbox(timerEntry.timerid)}
                                 />
+                                {/* <input
+                                    type="checkbox"
+                                    checked={!!checkedTimers[timerEntry.timerid]} 
+                                    onChange={() => handleCheckboxChange(timerEntry.timerid)}
+                                    disabled={timerEntry.invoiced || !!checkedTimers[timerEntry.timerid]} 
+                                /> */}
+
+
 
                             </div>
                             <div>Date: {timerEntry.starttime.slice(0, 10)}</div>
@@ -149,18 +178,18 @@ function EntriesPage({ clients, timerEntries,  getTimerEntries, setSelectedEntri
                                 </button>
 
                                 <DeleteModal
-                                        isOpen={isModalOpen}
-                                        onClose={closeModal}
-                                        onDelete={deleteEntry}
-                                        selectedEntryDelete={selectedEntryDelete}
-                                        clients={clients}
-                                    />
-                                
+                                    isOpen={isModalOpen}
+                                    onClose={closeModal}
+                                    onDelete={deleteEntry}
+                                    selectedEntryDelete={selectedEntryDelete}
+                                    clients={clients}
+                                />
+
                             </div>
                         </div>
                     ))}
                 </div>
-             
+
             </section>
         </>
     )

@@ -19,24 +19,27 @@ function App() {
   const [timerEntries, setTimerEntries] = useState([]);
   const [selectedEntries, setSelectedEntries] = useState([]);
 
+  // const [checkedTimers, setCheckedTimers] = useState({}); 
+
+
   //get all clients data - doing it here as I will need this data 
   //in the timer, entries and invoice page
-    const getClients = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/clients');
-        // console.log(response.data)
-        setClients(response.data);
-      } catch (error) {
-        console.error('Error getting clients:', error);
-      }
-    };
- 
+  const getClients = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/clients');
+      // console.log(response.data)
+      setClients(response.data);
+    } catch (error) {
+      console.error('Error getting clients:', error);
+    }
+  };
+
   //outside useeffect so it can be passed to client page to refresh
   useEffect(() => {
     getClients();
   }, []);
 
-  
+
   //get all timer entries
   //outside useeffect so it can be passed to entries and timer page to refresh
 
@@ -53,38 +56,54 @@ function App() {
     getTimerEntries();
   }, []);
 
-  
-//   const markEntriesAsInvoiced = async () => {
-//     for (const entry of selectedEntries) {
-//         try {
-//             await axios.patch(`http://localhost:8080/timers/${entry.timerid}`, {
-//                 invoiced: true
-//             });
-//             console.log(`Entry ${entry.timerid} marked as invoiced.`);
-//         } catch (error) {
-//             console.error(`Error updating time entry ${entry.timerid}:`, error);
-//         }
-//     }
 
-//     getTimerEntries();
-// };
-// console.log(markEntriesAsInvoiced)
+  // const markEntryAsInvoiced = async (timerId) => {
+  //   try {
+  //     const response = await axios.patch(`http://localhost:8080/timers/${timerId}`, {
+  //       invoiced: true
+  //     });
+  //     if (response.status === 200) {
+  //       setCheckedTimers(prev => ({ ...prev, [timerId]: true }));
+  //     }
+  //   } catch (error) {
+  //     console.error(`Error marking entry as invoiced: ${error}`);
+  //   }
+  // };
+
+  // const updateCheckedTimers = (timerId, isInvoiced) => {
+  //   setCheckedTimers(prev => ({ ...prev, [timerId]: isInvoiced }));
+  // };
+
 
 
   return (
     <div className="App">
       <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path='/' element={<TimerPage clients={clients}   getTimerEntries={getTimerEntries}/>} />
-        <Route path='/timers' element={<EntriesPage clients={clients} timerEntries={timerEntries} getTimerEntries={getTimerEntries} setSelectedEntries={setSelectedEntries}/>} />
-        <Route path='/timers/add' element={<AddNewEntryPage clients={clients} />} />
-        <Route path='/invoices' element={<InvoicesPage selectedEntries={selectedEntries} clients={clients}/>} />
-        <Route path='/clients' element={<ClientsPage clients={clients} timerEntries={timerEntries} getTimerEntries={getTimerEntries} setSelectedEntries={setSelectedEntries} getClients={getClients}/>} />
-        <Route path='/clients/add' element={<AddNewClientPage clients={clients} getClients={getClients}/>} />
-        <Route path="*" element={<TimerPage clients={clients}/>} />
-      </Routes>
-      
+        <Header />
+        <Routes>
+          <Route path='/' element={<TimerPage clients={clients} getTimerEntries={getTimerEntries} />} />
+          <Route path='/timers' element={<EntriesPage clients={clients} timerEntries={timerEntries}
+            getTimerEntries={getTimerEntries}
+            setSelectedEntries={setSelectedEntries}
+            // checkedTimers={checkedTimers}
+            // updateCheckedTimers={updateCheckedTimers} 
+            // markEntryAsInvoiced={markEntryAsInvoiced}
+             />} />
+          <Route path='/timers/add' element={<AddNewEntryPage clients={clients} />} />
+          <Route path='/invoices' element={<InvoicesPage selectedEntries={selectedEntries} clients={clients} />} />
+
+          <Route path='/clients' element={<ClientsPage clients={clients} timerEntries={timerEntries}
+            getTimerEntries={getTimerEntries} 
+            setSelectedEntries={setSelectedEntries} 
+            getClients={getClients} 
+            // checkedTimers={checkedTimers}
+            // updateCheckedTimers={updateCheckedTimers} 
+            // markEntryAsInvoiced={markEntryAsInvoiced}
+            />} />
+          <Route path='/clients/add' element={<AddNewClientPage clients={clients} getClients={getClients} />} />
+          <Route path="*" element={<TimerPage clients={clients} />} />
+        </Routes>
+
       </BrowserRouter>
     </div>
   );

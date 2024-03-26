@@ -15,6 +15,7 @@ import React, { useState, useEffect } from "react";
 
 function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntries, getClients }) {
 
+    // updateCheckedTimers, checkedTimers, markEntryAsInvoiced
 
     const [selectedTimers, setSelectedTimers] = useState([]);
     const [clientTimers, setClientTimers] = useState({});
@@ -138,6 +139,19 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
         });
     };
 
+    // const handleCheckboxChange = async (timerId) => {
+       
+    //     if (checkedTimers[timerId]) {
+    //         return; 
+    //     }
+
+    //     try {
+    //         await markEntryAsInvoiced(timerId);
+    //     } catch (error) {
+    //         console.error("Error marking entry as invoiced:", error);
+    //     }
+    // };
+
 
     const handleCreateInvoice = () => {
         const entriesToInvoice = timerEntries.filter(entry => selectedTimers.includes(entry.timerid));
@@ -192,6 +206,12 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
                                         checked={selectedTimers.includes(timer.timerid)}
                                         onChange={() => handleCheckboxChange(timer.timerid)}
                                     />
+                                    {/* <input
+                                        type="checkbox"
+                                        checked={!!checkedTimers[timer.timerid]} 
+                                        onChange={() => handleCheckboxChange(timer.timerid)}
+                                        disabled={timer.invoiced || !!checkedTimers[timer.timerid]} 
+                                    /> */}
                                     <div>Date: {timer.starttime.slice(0, 10)}</div>
                                     <div>StartTime: {timer.starttime.slice(11, 19)}</div>
                                     <div>EndTime: {timer.endtime.slice(11, 19)}</div>
@@ -209,7 +229,7 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
                                         selectedEntryDelete={selectedTimerDelete}
                                         clients={clients}
                                     />
-                            
+
                                 </div>
                             ))}
                         </div>

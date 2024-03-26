@@ -3,67 +3,75 @@ import "./EditClientModal.scss";
 import React, { useState, useEffect } from "react";
 
 const EditClientModal = ({ isOpen, onClose, onUpdate, selectedClientToEdit }) => {
-  const [clientData, setClientData] = useState({
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-  });
+    const [clientData, setClientData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+    });
 
-  useEffect(() => {
-      if (selectedClientToEdit) {
-          setClientData({
-              name: selectedClientToEdit.name || "",
-              email: selectedClientToEdit.email || "",
-              phone: selectedClientToEdit.phone || "",
-              address: selectedClientToEdit.address || "",
-          });
-      }
-  }, [selectedClientToEdit]);
+    useEffect(() => {
+        if (selectedClientToEdit) {
+            setClientData({
+                name: selectedClientToEdit.name || "",
+                email: selectedClientToEdit.email || "",
+                phone: selectedClientToEdit.phone || "",
+                address: selectedClientToEdit.address || "",
+            });
+        }
+    }, [selectedClientToEdit]);
 
-  const handleEditChange = (e) => {
-      const { name, value } = e.target;
-      setClientData(prevState => ({
-          ...prevState,
-          [name]: value,
-      }));
-  };
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setClientData(prevState => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
 
-  const handleEditSubmit = (e) => {
-      e.preventDefault();
-      onUpdate(clientData);
-  };
+    const handleEditSubmit = (e) => {
+        e.preventDefault();
+        onUpdate(clientData);
+    };
 
-  if (!isOpen) return null;
+    if (!isOpen) return null;
 
-  return (
-      <div className="modal__container">
-          <div className="modal__content">
-              <button onClick={onClose} className="modal__close-btn">
-                  <img src={closeIcon} alt="close icon" />
-              </button>
-              <h2>Edit Client</h2>
-              <form onSubmit={handleEditSubmit}>
-                  <label>Name:</label>
-                  <input type="text" name="name" value={clientData.name} onChange={handleEditChange} />
+    return (
+        <div className="modal-edit__container">
+            <div className="modal-edit__content">
+                <button onClick={onClose} className="modal-edit__close-btn">
+                    <img src={closeIcon} alt="close icon" />
+                </button>
+                <h2>Edit Client</h2>
+                <form className="form-edit" onSubmit={handleEditSubmit}>
 
-                  <label>Email:</label>
-                  <input type="email" name="email" value={clientData.email} onChange={handleEditChange} />
+                    <div className="form-edit__field">
+                        <label className="form-edit__label">Name:</label>
+                        <input type="text" name="name" value={clientData.name} onChange={handleEditChange} />
+                    </div>
 
-                  <label>Phone:</label>
-                  <input type="text" name="phone" value={clientData.phone} onChange={handleEditChange} />
+                    <div className="form-edit__field">
+                        <label className="form-edit__label">Email:</label>
+                        <input type="email" name="email" value={clientData.email} onChange={handleEditChange} />
+                    </div>
 
-                  <label>Address:</label>
-                  <input name="address" value={clientData.address} onChange={handleEditChange}></input>
+                    <div className="form-edit__field">
+                        <label className="form-edit__label">Phone:</label>
+                        <input type="text" name="phone" value={clientData.phone} onChange={handleEditChange} />
+                    </div>
 
-                  <div className="modal__btn-container">
-                      <button type="button" onClick={onClose} className="modal__cancel-btn">Cancel</button>
-                      <button type="submit" className="modal__update-btn">Update</button>
-                  </div>
-              </form>
-          </div>
-      </div>
-  );
+                    <div className="form-edit__field">
+                        <label className="form-edit__label">Address:</label>
+                        <input type="text" name="address" value={clientData.address} onChange={handleEditChange} />
+                    </div>
+                    <div className="modal-edit__btn-container">
+                        <button type="button" onClick={onClose} className="modal-edit__cancel-btn">Cancel</button>
+                        <button type="submit" className="modal-edit__update-btn">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
 };
 
 export default EditClientModal;

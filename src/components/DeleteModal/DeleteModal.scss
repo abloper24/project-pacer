@@ -50,43 +50,24 @@
     }
   }
 
-  &__cancel-btn,
-  &__delete-btn {
-    @include m-button;
-    @include m-h3;
-    flex: 1 1 auto;
-    margin: 10px;
-    cursor: pointer;
-    @include tablet {
-      @include td-h3;
-      flex: none;
-      margin: 0 10px;
-      padding: 10px 20px;
-    }
-  }
-
   &__cancel-btn {
-    color: $brown;
-    background: white;
-    border: solid 1px $brown;
-    &:hover {
-      border: solid 1px $green;
-      color: $green;
-    }
+    @include m-cancel-button;
+    // color: $brown;
+    // background: white;
+    // border: solid 1px $brown;
+    // &:hover {
+    //   border: solid 1px $green;
+    //   color: $green;
+    // }
 
-    @include tablet {
-      display: flex;
-      align-items: center;
-    }
+    // @include tablet {
+    //   display: flex;
+    //   align-items: center;
+    // }
   }
 
   &__delete-btn {
-    background-color: red;
-    color: white;
-       border: none;
-    &:hover {
-      background-color: $green;
-    }
+    @include m-delete-button;
   }
 
   &__close-btn {

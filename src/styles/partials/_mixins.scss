@@ -75,3 +75,43 @@
     padding-left: 3.9375rem;
     padding-right: 3.9375rem;
 }
+
+// buttons
+@mixin m-button{
+    // height: 2.25rem;
+    border-radius: 1.25rem;
+    padding: 10px 16px;
+}
+@mixin td-button{
+    // height: 2.375rem;
+    border-radius: 1.25rem;
+    padding: 10px 16px;
+}
+
+
+@mixin m-main-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 38px;
+    padding: 14px 16px;
+    background: $light-green;
+    color: $green;
+    border: none;
+    border-radius: 20px;
+    margin: 10px 10px;
+    @include m-h3;
+    img {
+      max-height: 18px;
+    }
+
+    &:hover,
+    :active {
+      background-color: $green;
+      color: $white;
+      img {
+        filter: brightness(0) saturate(100%) invert(100%);
+      }
+    }
+  }

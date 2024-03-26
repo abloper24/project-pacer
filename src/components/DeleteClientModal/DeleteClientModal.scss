@@ -3,13 +3,13 @@
 @use "../../styles/partials/variables" as *;
 
 .modal {
-  &__container {
+  &__container-client {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    // background-color: $instock-black-70;
+    background-color: rgba(230, 235, 233, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,27 +31,13 @@
       border-radius: 3px;
       padding: 20px;
       position: relative;
-    //   bottom: 30%; to make it look 1/3 of top screen but removed for now
       padding: 64px 40px;
     }
   }
 
   &__title {
-    // @include m-page-header;
     padding-bottom: 24px;
-    // color: $instock-black;
-    // @include tablet {
-    //   @include td-page-header;
-    // }
   }
-
-  // &__description {
-  //   @include m-body-large;
-  //   // color: $instock-black;
-  //   @include tablet {
-  //     @include td-body-large;
-  //   }
-  // }
 
   &__btn-container {
     margin-top: auto; 
@@ -66,14 +52,13 @@
 
   &__cancel-btn,
   &__delete-btn {
-    // @include m-button;
-    // @include m-text-button;
+    @include m-button;
+    @include m-h3;
     flex: 1 1 auto;
     margin: 10px;
-    border: none;
     cursor: pointer;
     @include tablet {
-      // @include td-button;
+      @include td-h3;
       flex: none;
       margin: 0 10px;
       padding: 10px 20px;
@@ -81,12 +66,12 @@
   }
 
   &__cancel-btn {
-    // color: $instock-black;
+    color: $brown;
     background: white;
-    // border: solid 1px $cloud;
+    border: solid 1px $brown;
     &:hover {
-      // border: solid 1px $instock-blue;
-      // color: $instock-blue;
+      border: solid 1px $green;
+      color: $green;
     }
 
     @include tablet {
@@ -98,8 +83,9 @@
   &__delete-btn {
     background-color: red;
     color: white;
+       border: none;
     &:hover {
-      // background-color: $instock-black;
+      background-color: $green;
     }
   }
 
@@ -110,6 +96,6 @@
     border: none;
     background: none;
     cursor: pointer;
-    // color: $instock-black;
   }
+
 }

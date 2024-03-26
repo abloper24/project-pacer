@@ -1,0 +1,85 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/fonts" as *;
+@use "../../styles/partials/variables" as *;
+
+.timer {
+  @include m-padding;
+  &__title {
+    display: flex;
+    justify-content: center;
+  }
+  &__intro {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  &__instructions {
+    display: flex;
+    justify-content: center;
+  }
+  &__select-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__select {
+
+  }
+  &__description-container {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    margin: 0 auto;
+    textarea{
+        padding: 10px;
+        height: 100px;
+        width: 100%;
+        max-width: 500px;
+        margin: 20px;   
+    }
+  }
+
+  &__elapsed-time-container {
+    display: flex;
+    justify-content: center;
+  }
+  &__elapsed-time {
+    @include m-h2
+    
+  }
+  &__controls {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 38px;
+    padding: 14px 16px;
+    background: $light-green;
+    color: $green;
+    border: none;
+    border-radius: 20px;
+    margin: 10px 10px;
+    @include m-h3;
+    img {
+      max-height: 18px;
+    }
+
+    &:hover,
+    :active {
+      background-color: $green;
+      color: $white;
+      img {
+        filter: brightness(0) saturate(100%) invert(100%);
+      }
+    }
+  }
+}
+

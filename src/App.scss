@@ -18,7 +18,7 @@ body {
 }
 
 
-p, button, link, input, a, ::placeholder, select, label{
+p, button, link, input, a, ::placeholder, select, label, textarea {
     font-family: 'WorkSans', 'sans serif';
     color: $brown;
 }

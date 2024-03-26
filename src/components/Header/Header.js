@@ -21,7 +21,7 @@ function Header() {
 
                 <NavLink to={'/timers'} className='nav__link'>
                     <button className="nav__btn">
-                        Time Entries <img src={entries} alt="entries icon" />
+                        Entries <img src={entries} alt="entries icon" />
                     </button>
                 </NavLink>
 

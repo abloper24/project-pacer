@@ -1,0 +1,30 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/fonts" as *;
+@use "../../styles/partials/variables" as *;
+
+.quotes{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: $light-green;
+    @include m-padding;
+    margin-top: 20px;
+
+    &__title{
+        @include m-h2
+
+    }
+    &__content{
+        @include m-body;
+
+    }
+    &__author{
+        @include m-body;
+        font-weight: 500;
+    }
+}

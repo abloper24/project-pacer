@@ -1,139 +1,126 @@
-import "./TimerPage.scss";
-import Quotes from "../../components/Quotes/Quotes";
 import React, { useState, useEffect } from "react";
+import Select from 'react-select';
 import axios from "axios";
 import { format as formatDate } from 'date-fns';
+import "./TimerPage.scss";
+import Quotes from "../../components/Quotes/Quotes";
 
 function TimerPage({ clients, getTimerEntries }) {
     const [isRunning, setIsRunning] = useState(false);
     const [startTime, setStartTime] = useState(null);
-    const [endTime, setEndTime] = useState(null);
     const [elapsedTime, setElapsedTime] = useState(0);
     const [description, setDescription] = useState("");
-    const [shouldLogEntry, setShouldLogEntry] = useState(false);
+    const [selectedClient, setSelectedClient] = useState(null);
 
-    const [selectedClientId, setSelectedClientId] = useState("");
-    // console.log(clients)
-    // console.log(getTimerEntries)
+    // format elapsed time
+    function formatTime(seconds) {
+        const pad = (num) => String(num).padStart(2, '0');
+        const hours = Math.floor(seconds / 3600);
+        const minutes = pad(Math.floor((seconds % 3600) / 60));
+        const secondsLeft = pad(seconds % 60);
+        return `${hours}:${minutes}:${secondsLeft}`;
+    }
 
-    //client data
-    useEffect(() => {
-        if (clients.length > 0) {
-            setSelectedClientId(clients[0].clientid.toString()); //defaul first client
-        }
-    }, [clients]);
-
-    //timer data
     useEffect(() => {
         let interval = null;
 
         if (isRunning) {
             if (!startTime) setStartTime(new Date());
             interval = setInterval(() => {
-                setElapsedTime(previousTime => previousTime + 1);
+                setElapsedTime(previousElapsedTime => previousElapsedTime + 1);
             }, 1000);
-        } else if (!isRunning && startTime && shouldLogEntry) {
-            setEndTime(new Date());
+        } else if (!isRunning && startTime) {
             clearInterval(interval);
-            setShouldLogEntry(false);
         }
+
         return () => clearInterval(interval);
-    }, [isRunning, startTime, shouldLogEntry]);
+    }, [isRunning, startTime]);
 
-    useEffect(() => {
-        if (!isRunning && endTime) {
-            logTimeEntry();
-        }
-    }, [endTime]);
-
-
-    //  HH:mm:ss format
-    const formatTime = (seconds) => {
-        const formatNumberWithZeros = (num, size) => String(num).padStart(size, '0');
-        const hours = formatNumberWithZeros(Math.floor(seconds / 3600), 2);
-        const minutes = formatNumberWithZeros(Math.floor((seconds % 3600) / 60), 2);
-        const secondsLeft = formatNumberWithZeros(seconds % 60, 2);
-        return `${hours}:${minutes}:${secondsLeft}`;
-    };
-
-
-    //uniq id use it int he forntend to define 
-    const logTimeEntry = async () => {
-        if (startTime && endTime) {
-            const duration = Math.floor((endTime - startTime) / 1000);
-            // date-fns
-            const formattedStartTime = formatDate(startTime, 'yyyy-MM-dd HH:mm:ss');
-            const formattedEndTime = formatDate(endTime, 'yyyy-MM-dd HH:mm:ss');
-
-            try {
-                const response = await axios.post('http://localhost:8080/timers', {
-                    starttime: formattedStartTime,
-                    endtime: formattedEndTime,
-                    duration,
-                    description,
-                    clientid: selectedClientId,
-                    invoiced: false,
-                });
-                console.log(response.data);
-                resetTimer();
-                getTimerEntries(); //to call all timer entries again
-            } catch (error) {
-                console.error("Error logging time entry:", error);
-            }
-        }
-    };
-
-    const startTimer = () => {
-        setIsRunning(true);
-        setShouldLogEntry(false);
-    };
+    const startTimer = () => setIsRunning(true);
 
     const stopTimer = () => {
         setIsRunning(false);
-        setShouldLogEntry(true);
+        logTimeEntry();
     };
 
     const resetTimer = () => {
         setElapsedTime(0);
         setIsRunning(false);
         setStartTime(null);
-        setEndTime(null);
         setDescription("");
     };
 
+    const logTimeEntry = async () => {
+        const endTime = new Date();
+        const duration = (endTime - startTime) / 1000; // duration in secs
+
+        try {
+            await axios.post('http://localhost:8080/timers', {
+                starttime: formatDate(startTime, 'yyyy-MM-dd HH:mm:ss'),
+                endtime: formatDate(endTime, 'yyyy-MM-dd HH:mm:ss'),
+                duration,
+                description,
+                clientid: selectedClient ? selectedClient.value : null,
+                invoiced: false,
+            });
+            resetTimer();
+            getTimerEntries();
+        } catch (error) {
+            console.error("Error logging time entry:", error);
+        }
+    };
+
+    // clients for react select library
+    const clientOptions = clients.map(client => ({
+        value: client.clientid.toString(),
+        label: client.name
+    }));
 
     return (
         <>
-            <section>
-                <h1>Timer Page</h1>
-                <p>This is the timer page</p>
+            <section className="timer">
+                <p className="timer__intro">Discover ProjectPacer: where time tracking and motivation converge, and invoice management is simplified.</p>
+                <p className="timer__instructions">Please select a client before starting the timer</p>
 
-                <div>
-                    <button onClick={startTimer}>Start</button>
-                    <button onClick={stopTimer} disabled={!isRunning}>Stop</button>
-                    <button onClick={resetTimer} disabled={isRunning}>Reset</button>
+                <div className="timer__select-container">
+                    <Select className="timer__select"
+                        value={selectedClient}
+                        onChange={setSelectedClient}
+                        options={clientOptions}
+                        placeholder="Select a client..."
+                    />
                 </div>
 
-                <div>Elapsed Time: {formatTime(elapsedTime)}</div>
-                <div>
-                <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="What tasks are you tackling today?"
-                ></textarea>
+
+                <div className="timer__elapsed-time-container">
+                    <p className="timer__elapsed-time"  > Elapsed Time: {formatTime(elapsedTime)} </p>
                 </div>
-                <div>
-                <select
-                    value={selectedClientId}
-                    onChange={(e) => setSelectedClientId(e.target.value)}
-                >
-                    {clients.map((client) => (
-                        <option key={client.clientid} value={client.clientid}>
-                            {client.name}
-                        </option>
-                    ))}
-                </select>
+
+                <div className="timer__controls">
+                    <button
+                        className="timer__btns"
+                        onClick={startTimer} disabled={!selectedClient}>Start</button>
+                    <button
+                        className="timer__btns"
+                        onClick={stopTimer} disabled={!isRunning || !selectedClient}>Stop</button>
+
+                    <button
+                        className="timer__btns"
+                        onClick={resetTimer} disabled={isRunning}>Reset</button>
                 </div>
+
+                <div className="timer__description-container">
+                    <textarea className="timer__description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="What tasks are you tackling today?"
+                    ></textarea>
+                </div>
+
+
+
+
+
 
             </section>
             <Quotes />

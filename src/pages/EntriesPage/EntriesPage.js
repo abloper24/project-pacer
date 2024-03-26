@@ -7,15 +7,13 @@ import React, { useState, useEffect } from "react";
 
 
 
-function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntries }) {
+function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntries, toggleInvoiceStatus }) {
 
-    // updateCheckedTimers, checkedTimers, markEntryAsInvoiced
-    
     const [uiSelectedEntries, setUISelectedEntries] = useState([]);
     const [selectedEntryDelete, setselectedEntryDelete] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-   
+
     const navigate = useNavigate();
 
     //sorting entries from new to old
@@ -43,20 +41,6 @@ function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
 
 
     };
-   // Call markEntryAsInvoiced to update backend and UI
-    // const handleCheckboxChange = async (timerId) => {
-    
-    //     if (checkedTimers[timerId]) {
-    //         return; 
-    //     }
-
-    //     try {
-    //         await markEntryAsInvoiced(timerId);
-    //     } catch (error) {
-    //         console.error("Error marking entry as invoiced:", error);
-    //     }
-    // };
-
 
 
     //delete modal pop-up
@@ -115,22 +99,6 @@ function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
                         Create Invoice
                     </button>
                 </div>
-                {/* will add manual entry form later */}
-                {/* <form>
-                    <input 
-                    type="text"
-                    id=""
-                    name=""
-                    placeholder=""
-                    ></input>
-                    <input 
-                    type="text"
-                    id=""
-                    name=""
-                    placeholder=""
-                    ></input>
-                </form> */}
-
 
                 {/* table heading for tablet and desktop version */}
                 {/* <div>
@@ -153,12 +121,7 @@ function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
                                     checked={uiSelectedEntries.includes(timerEntry.timerid)}
                                     onChange={() => handleSelectCheckbox(timerEntry.timerid)}
                                 />
-                                {/* <input
-                                    type="checkbox"
-                                    checked={!!checkedTimers[timerEntry.timerid]} 
-                                    onChange={() => handleCheckboxChange(timerEntry.timerid)}
-                                    disabled={timerEntry.invoiced || !!checkedTimers[timerEntry.timerid]} 
-                                /> */}
+                            
 
 
 
@@ -170,12 +133,16 @@ function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
                             <div>Task: {timerEntry.description}</div>
                             <div>Client Name: {clients.find(client => client.clientid === timerEntry.clientid)?.name}</div>
                             <div>Billing Status: {timerEntry.invoiced ? "Invoiced" : "Not Invoiced"}</div>
+                            <button onClick={() => toggleInvoiceStatus(timerEntry.timerid, timerEntry.invoiced)}>
+                                {timerEntry.invoiced ? "Mark as Not Invoiced" : "Mark as Invoiced"}
+                            </button>
                             <div>
                                 <button
                                     onClick={() => openModal(timerEntry)}
                                 >
                                     <img src={deleteIcon} alt="Delete" />
                                 </button>
+
 
                                 <DeleteModal
                                     isOpen={isModalOpen}

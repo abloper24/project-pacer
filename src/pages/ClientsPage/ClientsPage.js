@@ -15,8 +15,6 @@ import React, { useState, useEffect } from "react";
 
 function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntries, getClients }) {
 
-    // updateCheckedTimers, checkedTimers, markEntryAsInvoiced
-
     const [selectedTimers, setSelectedTimers] = useState([]);
     const [clientTimers, setClientTimers] = useState({});
 
@@ -29,28 +27,39 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
     const [isEditClientModalOpen, setIsEditClientModalOpen] = useState(false);
     const [selectedClientToEdit, setSelectedClientToEdit] = useState(null);
 
+    //state variable flag to indicate when to get again timer data for clients. 
+    const [refreshTimersFlag, setRefreshTimersFlag] = useState(false);
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const getClientTimers = async () => {
-            let sortedTimers = {};
-
-            for (let client of clients) {
-                try {
-                    const response = await axios.get(`http://localhost:8080/clients/${client.clientid}/timers`);
-                    sortedTimers[client.clientid] = response.data.sort((a, b) => new Date(b.starttime) - new Date(a.starttime));
-                } catch (error) {
-                    console.error(`Error fetching timers for client ${client.name}:`, error);
-                }
-            }
-            setClientTimers(sortedTimers);
-        };
-
-        if (clients.length > 0) {
-            getClientTimers();
+    const toggleInvoiceStatus = async (timerId, invoiced) => {
+        try {
+          await axios.patch(`http://localhost:8080/timers/${timerId}`, { invoiced: !invoiced });
+          setRefreshTimersFlag(flag => !flag); // trigger useEffect
+        } catch (error) {
+          console.error("Error updating invoice status:", error);
         }
-    }, [clients]);
+      };
+      
+
+    const getClientTimers = async () => {
+        let sortedTimers = {};
+    
+        for (let client of clients) {
+          try {
+            const response = await axios.get(`http://localhost:8080/clients/${client.clientid}/timers`);
+            sortedTimers[client.clientid] = response.data.sort((a, b) => new Date(b.starttime) - new Date(a.starttime));
+          } catch (error) {
+            console.error(`Error getting timers for client ${client.name}:`, error);
+          }
+        }
+        setClientTimers(sortedTimers);
+      };
+
+      useEffect(() => {
+        getClientTimers();
+      }, [clients, refreshTimersFlag]); 
+      
 
     const formatDuration = (seconds) => {
         const pad = (num) => num.toString().padStart(2, '0');
@@ -128,6 +137,11 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
         }
     };
 
+    //Invoice Toggle
+    const handleToggleInvoiceStatus = async (timer) => {
+        await toggleInvoiceStatus(timer.timerid, timer.invoiced);
+      };
+
 
     const handleCheckboxChange = (timerId) => {
         setSelectedTimers((prevSelectedTimers) => {
@@ -138,19 +152,6 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
             }
         });
     };
-
-    // const handleCheckboxChange = async (timerId) => {
-       
-    //     if (checkedTimers[timerId]) {
-    //         return; 
-    //     }
-
-    //     try {
-    //         await markEntryAsInvoiced(timerId);
-    //     } catch (error) {
-    //         console.error("Error marking entry as invoiced:", error);
-    //     }
-    // };
 
 
     const handleCreateInvoice = () => {
@@ -206,18 +207,16 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
                                         checked={selectedTimers.includes(timer.timerid)}
                                         onChange={() => handleCheckboxChange(timer.timerid)}
                                     />
-                                    {/* <input
-                                        type="checkbox"
-                                        checked={!!checkedTimers[timer.timerid]} 
-                                        onChange={() => handleCheckboxChange(timer.timerid)}
-                                        disabled={timer.invoiced || !!checkedTimers[timer.timerid]} 
-                                    /> */}
+
                                     <div>Date: {timer.starttime.slice(0, 10)}</div>
                                     <div>StartTime: {timer.starttime.slice(11, 19)}</div>
                                     <div>EndTime: {timer.endtime.slice(11, 19)}</div>
                                     <div>Duration/Time: {formatDuration(timer.duration)}</div>
                                     <div>Task: {timer.description}</div>
                                     <div>Billing Status: {timer.invoiced ? "Invoiced" : "Not Invoiced"}</div>
+                                    <button onClick={() => toggleInvoiceStatus(timer.timerid, timer.invoiced)}>
+                                        {timer.invoiced ? "Mark as Not Invoiced" : "Mark as Invoiced"}
+                                    </button>
                                     <button onClick={() => openModal(timer)}>
                                         <img src={deleteIcon} alt="Delete" />
 

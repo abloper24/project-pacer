@@ -57,22 +57,19 @@ function App() {
   }, []);
 
 
-  // const markEntryAsInvoiced = async (timerId) => {
-  //   try {
-  //     const response = await axios.patch(`http://localhost:8080/timers/${timerId}`, {
-  //       invoiced: true
-  //     });
-  //     if (response.status === 200) {
-  //       setCheckedTimers(prev => ({ ...prev, [timerId]: true }));
-  //     }
-  //   } catch (error) {
-  //     console.error(`Error marking entry as invoiced: ${error}`);
-  //   }
-  // };
-
-  // const updateCheckedTimers = (timerId, isInvoiced) => {
-  //   setCheckedTimers(prev => ({ ...prev, [timerId]: isInvoiced }));
-  // };
+//toggle invoice status for entries page - clientspage needs its own
+  const toggleInvoiceStatus = async (timerId, invoiced) => {
+    try {
+      const response = await axios.patch(`http://localhost:8080/timers/${timerId}`, {
+        invoiced: !invoiced
+      });
+      if (response.status === 200) {
+        getTimerEntries();
+      }
+    } catch (error) {
+      console.error("Error updating invoice status:", error);
+    }
+  };
 
 
 
@@ -85,9 +82,7 @@ function App() {
           <Route path='/timers' element={<EntriesPage clients={clients} timerEntries={timerEntries}
             getTimerEntries={getTimerEntries}
             setSelectedEntries={setSelectedEntries}
-            // checkedTimers={checkedTimers}
-            // updateCheckedTimers={updateCheckedTimers} 
-            // markEntryAsInvoiced={markEntryAsInvoiced}
+            toggleInvoiceStatus={toggleInvoiceStatus}
              />} />
           <Route path='/timers/add' element={<AddNewEntryPage clients={clients} />} />
           <Route path='/invoices' element={<InvoicesPage selectedEntries={selectedEntries} clients={clients} />} />
@@ -95,10 +90,7 @@ function App() {
           <Route path='/clients' element={<ClientsPage clients={clients} timerEntries={timerEntries}
             getTimerEntries={getTimerEntries} 
             setSelectedEntries={setSelectedEntries} 
-            getClients={getClients} 
-            // checkedTimers={checkedTimers}
-            // updateCheckedTimers={updateCheckedTimers} 
-            // markEntryAsInvoiced={markEntryAsInvoiced}
+            getClients={getClients}
             />} />
           <Route path='/clients/add' element={<AddNewClientPage clients={clients} getClients={getClients} />} />
           <Route path="*" element={<TimerPage clients={clients} />} />

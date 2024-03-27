@@ -3,6 +3,23 @@
 @use "../../styles/partials/variables" as *;
 
 .client-form {
+  max-width: 500px;
+  margin: auto;
+  @include m-padding;
+  @include tablet{
+    @include t-padding;
+  }
+
+  &__header{
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__back-btn{
+    background-color: transparent;
+    border: none;
+    margin-right: 16px;
+  }
     &__title {
       margin-bottom: 20px; 
       text-align: center;
@@ -37,7 +54,7 @@
       }
     }
   
-    button {
+    &__submit-btn {
       @include m-main-button;
     }
 

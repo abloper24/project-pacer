@@ -1,7 +1,8 @@
 import "./AddNewClientPage.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import arrowBack from '../../assets/images/icons/arrow_back.svg'
 
 function AddNewClientPage({ getClients }) {
     const [name, setName] = useState("");
@@ -12,6 +13,11 @@ function AddNewClientPage({ getClients }) {
     const [errors, setErrors] = useState({});
 
     const navigate = useNavigate();
+
+      //to go back
+      const handleBackClick = () => {
+        navigate(-1); 
+      };
 
     // form validation of each field
     const validateForm = () => {
@@ -70,7 +76,12 @@ function AddNewClientPage({ getClients }) {
 
     return (
         <section className="client-form">
+            <div className="client-form__header">
+            <button className='client-form__back-btn' 
+            onClick={handleBackClick}><img 
+            src={arrowBack} alt='arrow_back-24px' /></button>
             <h1 className="client-form__title">Add a New Client</h1>
+            </div>
             <form onSubmit={handleSubmit} className="client-form__form">
                 <div className="client-form__field">
                     <label className="client-form__label">Name:</label>

@@ -4,7 +4,24 @@
 
 
 .invoice {
-  padding: 0 20px;
+  max-width: 500px;
+  margin: auto;
+  @include m-padding;
+  @include tablet{
+    @include t-padding;
+  }
+
+  &__header{
+    display: flex;
+    flex-direction: row;
+   
+  }
+
+  &__back-btn{
+    background-color: transparent;
+    border: none;
+    margin-right: 16px;
+  }
   &__title {
     @include m-h1;
     text-align: center;

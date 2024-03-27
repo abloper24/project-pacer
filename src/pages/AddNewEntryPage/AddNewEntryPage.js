@@ -1,8 +1,9 @@
 import "./AddNewEntryPage.scss";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Select from 'react-select';
+import arrowBack from '../../assets/images/icons/arrow_back.svg'
 
 function AddNewEntryPage({ clients }) {
     const [entryDate, setEntryDate] = useState("");
@@ -15,6 +16,11 @@ function AddNewEntryPage({ clients }) {
 
 
     const navigate = useNavigate();
+
+    //to go back
+    const handleBackClick = () => {
+        navigate(-1); 
+      };
 
     // form validation of each field
     const validateForm = () => {
@@ -103,8 +109,15 @@ function AddNewEntryPage({ clients }) {
 
     return (
         <section className="entry-form">
+            <div className="entry-form__header">
+           <button className='entry-form__back-btn' 
+            onClick={handleBackClick}><img 
+            src={arrowBack} alt='arrow_back-24px' /></button>
             <h1 className="entry-form__title">Add a New Entry Page</h1>
+            </div>
+            
             <form onSubmit={handleSubmit} className="entry-form__form">
+            
                 <div className="entry-form__field">
                     <label className="entry-form__label">Date:</label>
                     <input

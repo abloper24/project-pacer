@@ -1,10 +1,12 @@
 
 import "./InvoicesPage.scss";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import andreaLogo from '../../assets/images/logos/andrea-logo.png'
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import Select from 'react-select';
+import arrowBack from '../../assets/images/icons/arrow_back.svg'
 
 
 
@@ -19,8 +21,12 @@ function InvoicesPage({ selectedEntries, clients }) {
     const [selectedTaxRate, setSelectedTaxRate] = useState(0);
     const [invoiceNumber, setInvoiceNumber] = useState("");
 
+
     //form validation state
     const [errors, setErrors] = useState({});
+
+    const navigate = useNavigate();
+
     //only generate pdf if form is valid
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -66,7 +72,10 @@ function InvoicesPage({ selectedEntries, clients }) {
         return formIsValid;
     };
 
-
+    //to go back
+    const handleBackClick = () => {
+        navigate(-1);
+    };
 
     const clientForInvoice = clients.find(client => client.clientid === selectedEntries[0]?.clientid) || {};
 
@@ -264,7 +273,13 @@ function InvoicesPage({ selectedEntries, clients }) {
 
     return (
         <div className="invoice">
-            <h1 className="invoice__title">Invoices</h1>
+            <div className="invoice__header">
+                <button className='invoice__back-btn'
+                    onClick={handleBackClick}><img
+                        src={arrowBack} alt='arrow_back-24px' /></button>
+                <h1 className="invoice__title">Invoices</h1>
+            </div>
+
             <form className="invoice__form" onSubmit={handleSubmit}>
 
                 {/* invoice number */}

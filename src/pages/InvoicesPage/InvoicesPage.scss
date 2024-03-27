@@ -4,6 +4,7 @@
 
 
 .invoice {
+  padding: 0 20px;
   &__title {
     @include m-h1;
     text-align: center;
@@ -13,7 +14,7 @@
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 30px;
     width: 100%;
     max-width: 500px;
     margin: auto;
@@ -55,4 +56,25 @@
     @include m-main-button;
     margin-top: 20px;
   }
+
+
+  &__table{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    width: 100%; 
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid $grey;
+    padding: 30px 0;
+
+  }
+  &__column{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+
+  }
+ 
 }

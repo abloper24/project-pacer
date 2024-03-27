@@ -14,8 +14,8 @@ function InvoicesPage({ selectedEntries, clients }) {
     const [invoiceDueDate, setInvoiceDueDate] = useState("");
     const [rates, setRates] = useState({});
     const [taxRates, setTaxRates] = useState({});
-    const [terms, setTerms] = useState("If payment is not received within 10 days of the due date, the Client will also be subject to a late fee of 5% of the amount overdue.\n\nGST/HST#: 702288010RT0001");
-    const [paymentInstructions, setPaymentInstructions] = useState("Please send payment via e-transfer to ablobelperez@gmail.com");
+    const [terms, setTerms] = useState("If payment is not received within 10 days of the due date, the Client will also be subject to a late fee of 5% of the amount overdue.\n\nGST/HST#: 70228XXXXRT0001");
+    const [paymentInstructions, setPaymentInstructions] = useState("Please send payment via e-transfer to billing@email.com");
     const [selectedTaxRate, setSelectedTaxRate] = useState(0);
     const [invoiceNumber, setInvoiceNumber] = useState("");
 
@@ -137,11 +137,11 @@ function InvoicesPage({ selectedEntries, clients }) {
         let addressXPosition = pageWidth - rightMargin;
         let addressLines = [
             'Andrea Blobel Pérez',
-            '1003-1188 Bidwell',
-            'Vancouver British Columbia V6G 0C6',
+            '1100 Bidwell',
+            'Vancouver British Columbia V9G 8C6',
             'Canada',
-            '672-515-3544',
-            'billing@andreablobel.com'
+            '672-515-6767',
+            'billing@email.com'
         ];
 
         // printing Address Lines
@@ -290,46 +290,71 @@ function InvoicesPage({ selectedEntries, clients }) {
 
                 {/* selected Entries */}
                 <div>
-                    {selectedEntries.map((selectedEntries) => (
-                        <div key={selectedEntries.timerid}>
-                            
-                            <div>Task: {selectedEntries.description}</div>
-                            <div>Client Name: {clients.find(client => client.clientid === selectedEntries.clientid)?.name}</div>
-                            <div>Date: {selectedEntries.starttime.slice(0, 10)}</div>
-                            <div>Task Hours: {roundedMinutesIntoHours(selectedEntries.duration)}</div>
+                    {selectedEntries.map((entry) => (
+                        <div key={entry.timerid} className="invoice__table">
+                            {/* left column */}
 
+                            <div className="invoice__column">
+                                <div className="invoice__field">
+                                    <div className="invoice__label">Task:</div>
+                                    <div className="invoice__input"> {entry.description}</div>
+                                </div>
+                                <div className="invoice__field">
+                                    <div className="invoice__label">Client Name:</div>
+                                    <div className="invoice__input">{clients.find(client => client.clientid === entry.clientid)?.name}</div>
+                                </div>
+                                <div className="invoice__field">
+                                    <div className="invoice__label">Date:</div>
 
-                            <label>Rate: $</label>
-                            <input
-                                type="number"
-                                id={`rate-${selectedEntries.timerid}`}
-                                value={rates[selectedEntries.timerid] || ''}
-                                onChange={e => handleRateChange(selectedEntries.timerid, Number(e.target.value))}
-                            />
-                            <div className="invoice__field">
-                                <label className="invoice__label">Tax</label>
-                                <Select
-                                    id="tax"
-                                    classNamePrefix="invoice__select"
-                                    value={selectedTaxRate}
-                                    onChange={handleTaxRateChange}
-                                    options={taxOptions}
-                                    placeholder="Select tax rate..."
-                                />
+                                    <div className="invoice__input"> {entry.starttime.slice(0, 10)}</div>
+                                </div>
+                                <div className="invoice__field">
+                                    <div className="invoice__label">Task Hours:</div>
+                                    <div className="invoice__input"> {roundedMinutesIntoHours(entry.duration)}</div>
+                                </div>
                             </div>
-                            <label className="invoice__label">Amount: $</label>
-                            <input
-                                type="text"
-                                id={`amount-${selectedEntries.timerid}`}
-                                value={calculateAmountWithTax(selectedEntries.duration, rates[selectedEntries.timerid] || 0, taxRates[selectedEntries.timerid] || 0)}
-                                disabled
-                            />
 
+                            {/* right column  */}
+                            <div className="invoice__column">
+                                <div className="invoice__field">
+                                    <label className="invoice__label">Rate: $</label>
+                                    <input
+                                        type="number"
+                                        id={`rate-${entry.timerid}`}
+                                        value={rates[entry.timerid] || ''}
+                                        onChange={e => handleRateChange(entry.timerid, Number(e.target.value))}
+                                    />
+                                </div>
+                                <div className="invoice__field">
+
+                                    <label className="invoice__label">Tax</label>
+                                    <Select
+                                        id="tax"
+                                        classNamePrefix="invoice__select"
+                                        value={selectedTaxRate}
+                                        onChange={handleTaxRateChange}
+                                        options={taxOptions}
+                                        placeholder="Select tax rate..."
+                                    />
+
+                                </div>
+
+
+                                <div className="invoice__field">
+                                    <label className="invoice__label">Amount: $</label>
+                                    <input
+                                        type="text"
+                                        className="invoice__input"
+                                        value={calculateAmountWithTax(entry.duration, rates[entry.timerid] || 0, taxRates[entry.timerid] || 0)}
+                                        disabled
+                                    />
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>
 
-                    {/* totals */}
+                {/* totals */}
                 <div className="invoice__field">
                     <label className="invoice__label">Subtotal ${subtotal}</label>
                     <label className="invoice__label">{getTaxName(selectedTaxRate)}: ${taxAmount}</label>
@@ -361,7 +386,7 @@ function InvoicesPage({ selectedEntries, clients }) {
                 {/* export PDF */}
                 <div className="invoice__actions">
                     <button type="button" className="invoice__export-btn" onClick={generatePDF}>
-                       Create Invoice
+                        Create Invoice
                     </button>
                 </div>
 

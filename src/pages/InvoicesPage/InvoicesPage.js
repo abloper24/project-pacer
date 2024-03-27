@@ -1,8 +1,10 @@
 
+import "./InvoicesPage.scss";
 import React, { useState, useEffect } from "react";
 import andreaLogo from '../../assets/images/logos/andrea-logo.png'
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import Select from 'react-select';
 
 
 
@@ -18,7 +20,19 @@ function InvoicesPage({ selectedEntries, clients }) {
     const [invoiceNumber, setInvoiceNumber] = useState("");
 
     const clientForInvoice = clients.find(client => client.clientid === selectedEntries[0]?.clientid) || {};
-  
+
+
+    const taxOptions = [
+        { value: 0, label: 'No Tax' },
+        { value: 5, label: 'GST [5%]' },
+        { value: 15, label: 'HST [15%]' },
+    ];
+    const selectedTaxOption = taxOptions.find(option => option.value === selectedTaxRate);
+
+
+
+
+
     const handleDateChange = (event) => {
         setInvoiceDate(event.target.value);
     };
@@ -35,8 +49,12 @@ function InvoicesPage({ selectedEntries, clients }) {
         setTaxRates(prevTaxRates => ({ ...prevTaxRates, [timerId]: tax }));
     };
 
-    const handleTaxRateChange = (e) => {
-        setSelectedTaxRate(Number(e.target.value));
+    // const handleTaxRateChange = (e) => {
+    //     setSelectedTaxRate(Number(e.target.value));
+    // };
+
+    const handleTaxRateChange = selectedOption => {
+        setSelectedTaxRate(selectedOption.value);
     };
 
     const handleInvoiceNumberChange = (event) => {
@@ -96,20 +114,20 @@ function InvoicesPage({ selectedEntries, clients }) {
         }
     };
 
-   
-      
+
+
 
     // build  PDF
     const generatePDF = () => {
         const doc = new jsPDF();
         doc.setFont("Helvetica");
-    
+
         // logo image
         const logoWidth = 50;
         const logoHeight = 50;
         const yPosition = 10;
         doc.addImage(andreaLogo, 'PNG', 15, yPosition, logoWidth, logoHeight);
-    
+
         // address info
         let pageWidth = doc.internal.pageSize.getWidth();
         doc.setFontSize(11);
@@ -125,12 +143,12 @@ function InvoicesPage({ selectedEntries, clients }) {
             '672-515-3544',
             'billing@andreablobel.com'
         ];
-    
+
         // printing Address Lines
         addressLines.forEach((line, i) => {
             doc.text(line, addressXPosition, addressYStart + (i * lineHeight), null, null, 'right');
         });
-    
+
         // billing info
         let billingInfoLine = [
             `Bill to: ${clientForInvoice.name || 'Client not selected'}`,
@@ -141,7 +159,7 @@ function InvoicesPage({ selectedEntries, clients }) {
 
         // priting billing info
         billingInfoLine.forEach((line, i) => {
-            doc.text(line, 15, billingStartY + (i * lineHeight)); 
+            doc.text(line, 15, billingStartY + (i * lineHeight));
         });
 
         //invide details info
@@ -158,10 +176,10 @@ function InvoicesPage({ selectedEntries, clients }) {
         invoiceInfoLine.forEach((line, i) => {
             doc.text(line, invoiceInfoX, invoiceInfoStartY + (i * lineHeight), null, null, 'right');
         });
-        
+
         //position of table
         let tableStartY = invoiceInfoStartY + (billingInfoLine.length * lineHeight) + 10;
-    
+
         // table headers and data
         let headers = ["#", "Task", "Project Hours", "Rate", "Amount"];
         let data = selectedEntries.map((selectedEntry, i) => [
@@ -202,26 +220,26 @@ function InvoicesPage({ selectedEntries, clients }) {
         doc.text(`Balance due: $${totalAmount}`, addressXPosition, financialDetailsStartY + 2 * financialLineHeight, null, null, 'right');
 
         // Terms & Conditions 
-        let termsStartY = financialDetailsStartY + 3 * financialLineHeight + 10; 
+        let termsStartY = financialDetailsStartY + 3 * financialLineHeight + 10;
         doc.setFont("Helvetica", "bold");
         doc.text("Terms & Conditions", 14, termsStartY);
         doc.setFont("Helvetica", "normal");
         let termsLines = doc.splitTextToSize(terms, 180);
         termsLines.forEach((line, index) => {
-            doc.text(line, 14, termsStartY + 7 + (index * 6.5)); 
+            doc.text(line, 14, termsStartY + 7 + (index * 6.5));
         });
 
         // Payment
-        let paymentInstructionsStartY = termsStartY + 7 + (termsLines.length * 6.5) + 10; 
+        let paymentInstructionsStartY = termsStartY + 7 + (termsLines.length * 6.5) + 10;
         doc.setFont("Helvetica", "bold");
         doc.text("Payment Instructions", 14, paymentInstructionsStartY);
         doc.setFont("Helvetica", "normal");
-        let paymentLines = doc.splitTextToSize(paymentInstructions, 180); 
+        let paymentLines = doc.splitTextToSize(paymentInstructions, 180);
         paymentLines.forEach((line, index) => {
-            doc.text(line, 14, paymentInstructionsStartY + 7 + (index * 6.5)); 
+            doc.text(line, 14, paymentInstructionsStartY + 7 + (index * 6.5));
         });
 
-     
+
         // save  PDF
         doc.save(`${invoiceNumber}.pdf`);
 
@@ -229,52 +247,56 @@ function InvoicesPage({ selectedEntries, clients }) {
 
 
     return (
-        <div>
-            <h1>Invoices</h1>
-            <form>
-                <div>
-                    <p>Client: {clientForInvoice.name || 'Client not selected'}</p>
-                </div>
+        <div className="invoice">
+            <h1 className="invoice__title">Invoices</h1>
+            <form className="invoice__form">
 
-                <div>
-                    <label>Invoice #</label>
+                {/* invoice number */}
+                <div className="invoice__field">
+                    <label className="invoice__label">Invoice #</label>
                     <input
+                        className="invoice__input"
                         type="text"
                         placeholder="INV-00099"
                         name="invoice-number"
                         value={invoiceNumber}
-                        onChange={handleInvoiceNumberChange}
-                    >
-                    </input>
+                        onChange={e => setInvoiceNumber(e.target.value)}
+                    />
                 </div>
-                <div>
-                    <label>Invoice Date</label>
+
+                {/* invoice date */}
+                <div className="invoice__field">
+                    <label className="invoice__label">Invoice Date</label>
                     <input
+                        className="invoice__input"
                         type="date"
-                        id="invoice-date"
                         name="invoice-date"
                         value={invoiceDate}
-                        onChange={handleDateChange}
-                    />
-
-                    <label>Due Date</label>
-                    <input
-                        type="date"
-                        id="invoice-due-date"
-                        name="invoice-due-date"
-                        value={invoiceDueDate}
-                        onChange={handleDueDateChange}
+                        onChange={e => setInvoiceDate(e.target.value)}
                     />
                 </div>
 
+                {/* due date */}
+                <div className="invoice__field">
+                    <label className="invoice__label">Due Date</label>
+                    <input
+                        className="invoice__input"
+                        type="date"
+                        name="invoice-due-date"
+                        value={invoiceDueDate}
+                        onChange={e => setInvoiceDueDate(e.target.value)}
+                    />
+                </div>
+
+                {/* selected Entries */}
                 <div>
                     {selectedEntries.map((selectedEntries) => (
                         <div key={selectedEntries.timerid}>
+                            
                             <div>Task: {selectedEntries.description}</div>
                             <div>Client Name: {clients.find(client => client.clientid === selectedEntries.clientid)?.name}</div>
                             <div>Date: {selectedEntries.starttime.slice(0, 10)}</div>
                             <div>Task Hours: {roundedMinutesIntoHours(selectedEntries.duration)}</div>
-
 
 
                             <label>Rate: $</label>
@@ -284,14 +306,17 @@ function InvoicesPage({ selectedEntries, clients }) {
                                 value={rates[selectedEntries.timerid] || ''}
                                 onChange={e => handleRateChange(selectedEntries.timerid, Number(e.target.value))}
                             />
-                            <label>Tax</label>
-                            <select
-                                value={selectedTaxRate} onChange={handleTaxRateChange}
-                            >
-                                <option value={0}>No Tax</option>
-                                <option value={5}>GST [5%]</option>
-                                <option value={15}>HST [15%]</option>
-                            </select>
+                            <div className="invoice__field">
+                                <label className="invoice__label">Tax</label>
+                                <Select
+                                    id="tax"
+                                    classNamePrefix="invoice__select"
+                                    value={selectedTaxRate}
+                                    onChange={handleTaxRateChange}
+                                    options={taxOptions}
+                                    placeholder="Select tax rate..."
+                                />
+                            </div>
                             <label>Amount: $</label>
                             <input
                                 type="text"
@@ -304,41 +329,43 @@ function InvoicesPage({ selectedEntries, clients }) {
                     ))}
                 </div>
 
-
+                    {/* totals */}
                 <div>
                     <p>Subtotal ${subtotal}</p>
                     <p>{getTaxName(selectedTaxRate)}: ${taxAmount}</p>
                     <p>Total ${totalAmount}</p>
                 </div>
 
-                <div>
-                    <label>Terms & Conditions</label>
+                {/* terms and conditions */}
+                <div className="invoice__field">
+                    <label className="invoice__label">Terms & Conditions</label>
                     <textarea
+                        className="invoice__terms"
                         id="terms-conditions"
                         value={terms}
-                        onChange={handleTermsChange}
-                    >
-                    </textarea>
-
-                </div>
-
-                <div>
-                    <label>Payment</label>
-                    <textarea
-                        id="payment-instructions"
-                        value={paymentInstructions}
-                        onChange={handlePaymentInstructionsChange}
+                        onChange={e => setTerms(e.target.value)}
                     />
                 </div>
 
-                <button type="button" onClick={generatePDF}>
-                    Export to PDF
-                </button>
+                {/* payment instructions */}
+                <div className="invoice__field">
+                    <label className="invoice__label">Payment</label>
+                    <textarea
+                        className="invoice__payment"
+                        id="payment-instructions"
+                        value={paymentInstructions}
+                        onChange={e => setPaymentInstructions(e.target.value)}
+                    />
+                </div>
+
+                {/* export PDF */}
+                <div className="invoice__actions">
+                    <button type="button" className="invoice__export-btn" onClick={generatePDF}>
+                       Create Invoice
+                    </button>
+                </div>
 
             </form>
-
-
-
         </div>
     );
 }

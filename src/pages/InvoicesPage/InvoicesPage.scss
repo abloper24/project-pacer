@@ -1,0 +1,61 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/fonts" as *;
+@use "../../styles/partials/variables" as *;
+
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/fonts" as *;
+@use "../../styles/partials/variables" as *;
+
+.invoice {
+  &__title {
+    @include m-h1;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+ 
+  }
+
+  &__label {
+    @include m-h3;
+  }
+  &__input{
+    border-color: $grey;
+    border-radius: 2px;
+  }
+
+  &__select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    &:focus {
+      border-color: $focus-blue;
+    }
+  }
+  &__terms{
+    height: 150px
+  }
+
+  &__payment{
+    height: 80px
+  }
+
+  &__export-btn {
+    @include m-main-button;
+    margin-top: 20px;
+  }
+}

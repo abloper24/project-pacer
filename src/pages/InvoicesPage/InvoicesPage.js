@@ -21,7 +21,6 @@ function InvoicesPage({ selectedEntries, clients }) {
 
     const clientForInvoice = clients.find(client => client.clientid === selectedEntries[0]?.clientid) || {};
 
-
     const taxOptions = [
         { value: 0, label: 'No Tax' },
         { value: 5, label: 'GST [5%]' },
@@ -29,37 +28,14 @@ function InvoicesPage({ selectedEntries, clients }) {
     ];
     const selectedTaxOption = taxOptions.find(option => option.value === selectedTaxRate);
 
-
-
-
-
-    const handleDateChange = (event) => {
-        setInvoiceDate(event.target.value);
-    };
-
-    const handleDueDateChange = (event) => {
-        setInvoiceDueDate(event.target.value);
+    const handleTaxRateChange = selectedOption => {
+        setSelectedTaxRate(selectedOption.value);
     };
 
     const handleRateChange = (timerId, rate) => {
         setRates(prevRates => ({ ...prevRates, [timerId]: rate }));
     };
 
-    const handleTaxChange = (timerId, tax) => {
-        setTaxRates(prevTaxRates => ({ ...prevTaxRates, [timerId]: tax }));
-    };
-
-    // const handleTaxRateChange = (e) => {
-    //     setSelectedTaxRate(Number(e.target.value));
-    // };
-
-    const handleTaxRateChange = selectedOption => {
-        setSelectedTaxRate(selectedOption.value);
-    };
-
-    const handleInvoiceNumberChange = (event) => {
-        setInvoiceNumber(event.target.value);
-    };
 
     // round seconds up to min and then to h
     const roundedMinutesIntoHours = (seconds) => {
@@ -91,16 +67,6 @@ function InvoicesPage({ selectedEntries, clients }) {
 
     // get calculated amounts - call function
     const { subtotal, taxAmount, totalAmount } = calculateAmounts();
-
-    //to change terms textare unless default state
-    const handleTermsChange = (event) => {
-        setTerms(event.target.value);
-    };
-
-    //to change payment details unless default
-    const handlePaymentInstructionsChange = (event) => {
-        setPaymentInstructions(event.target.value);
-    };
 
     //when 5% show GST (5%)
     const getTaxName = (taxRate) => {
@@ -138,7 +104,7 @@ function InvoicesPage({ selectedEntries, clients }) {
         let addressLines = [
             'Andrea Blobel Pérez',
             '1100 Bidwell',
-            'Vancouver British Columbia V9G 8C6',
+            'Vancouver, BC V9G 8C6',
             'Canada',
             '672-515-6767',
             'billing@email.com'
@@ -294,7 +260,7 @@ function InvoicesPage({ selectedEntries, clients }) {
                         <div key={entry.timerid} className="invoice__table">
                             {/* left column */}
 
-                            <div className="invoice__column">
+                            <div className="invoice__column invoice__column-left">
                                 <div className="invoice__field">
                                     <div className="invoice__label">Task:</div>
                                     <div className="invoice__input"> {entry.description}</div>
@@ -308,14 +274,15 @@ function InvoicesPage({ selectedEntries, clients }) {
 
                                     <div className="invoice__input"> {entry.starttime.slice(0, 10)}</div>
                                 </div>
-                                <div className="invoice__field">
-                                    <div className="invoice__label">Task Hours:</div>
-                                    <div className="invoice__input"> {roundedMinutesIntoHours(entry.duration)}</div>
-                                </div>
+                                
                             </div>
 
                             {/* right column  */}
-                            <div className="invoice__column">
+                            <div className="invoice__column invoice__column-rigth">
+                            <div className="invoice__field">
+                                    <div className="invoice__label">Task Hours:</div>
+                                    <div className="invoice__input"> {roundedMinutesIntoHours(entry.duration)}</div>
+                                </div>
                                 <div className="invoice__field">
                                     <label className="invoice__label">Rate: $</label>
                                     <input
@@ -325,20 +292,6 @@ function InvoicesPage({ selectedEntries, clients }) {
                                         onChange={e => handleRateChange(entry.timerid, Number(e.target.value))}
                                     />
                                 </div>
-                                <div className="invoice__field">
-
-                                    <label className="invoice__label">Tax</label>
-                                    <Select
-                                        id="tax"
-                                        classNamePrefix="invoice__select"
-                                        value={selectedTaxRate}
-                                        onChange={handleTaxRateChange}
-                                        options={taxOptions}
-                                        placeholder="Select tax rate..."
-                                    />
-
-                                </div>
-
 
                                 <div className="invoice__field">
                                     <label className="invoice__label">Amount: $</label>
@@ -355,6 +308,19 @@ function InvoicesPage({ selectedEntries, clients }) {
                 </div>
 
                 {/* totals */}
+                <div className="invoice__field">
+
+                    <label className="invoice__label">Tax</label>
+                    <Select
+                        id="tax"
+                        classNamePrefix="invoice__select"
+                        value={selectedTaxOption}
+                        onChange={handleTaxRateChange}
+                        options={taxOptions}
+                        placeholder="Select tax rate..."
+                    />
+
+                </div>
                 <div className="invoice__field">
                     <label className="invoice__label">Subtotal ${subtotal}</label>
                     <label className="invoice__label">{getTaxName(selectedTaxRate)}: ${taxAmount}</label>

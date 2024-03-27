@@ -5,6 +5,10 @@
 .entries-page {
   max-width: 1040px;
   margin: auto;
+  @include m-padding;
+  @include tablet{
+    @include t-padding;
+  }
 
   &__title,
   &__description {
@@ -39,7 +43,6 @@
 .entry {
   border-bottom: 1px solid $grey;
   margin-bottom: 20px;
-  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -93,10 +96,9 @@
     margin: 20px 10px;
     gap: 16px;
     @include tablet {
-      justify-content: flex-end;
+      justify-content: flex-start;
       display: flex;
       gap: 10px;
-        flex-direction: column;
     }
   }
 
@@ -111,5 +113,8 @@
   &__delete-btn {
     background-color: transparent;
     border: none;
+  }
+  &__td-heading{
+    font-weight: 500;
   }
 }

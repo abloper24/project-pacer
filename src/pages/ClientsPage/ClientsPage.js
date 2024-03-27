@@ -13,13 +13,8 @@ import React, { useState, useEffect } from "react";
 
 
 
-function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntries, getClients }) {
+function ClientsPage({ clients, getTimerEntries, getClients }) {
 
-    const [selectedTimers, setSelectedTimers] = useState([]);
-    const [clientTimers, setClientTimers] = useState({});
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedTimerDelete, setSelectedTimerDelete] = useState(null);
 
     const [isClientModalOpen, setIsClientModalOpen] = useState(false);
     const [selectedClientToDelete, setSelectedClientToDelete] = useState(null);
@@ -27,68 +22,8 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
     const [isEditClientModalOpen, setIsEditClientModalOpen] = useState(false);
     const [selectedClientToEdit, setSelectedClientToEdit] = useState(null);
 
-    //state variable flag to indicate when to get again timer data for clients. 
-    const [refreshTimersFlag, setRefreshTimersFlag] = useState(false);
 
     const navigate = useNavigate();
-
-    const toggleInvoiceStatus = async (timerId, invoiced) => {
-        try {
-          await axios.patch(`http://localhost:8080/timers/${timerId}`, { invoiced: !invoiced });
-          setRefreshTimersFlag(flag => !flag); // trigger useEffect
-        } catch (error) {
-          console.error("Error updating invoice status:", error);
-        }
-      };
-      
-
-    const getClientTimers = async () => {
-        let sortedTimers = {};
-    
-        for (let client of clients) {
-          try {
-            const response = await axios.get(`http://localhost:8080/clients/${client.clientid}/timers`);
-            sortedTimers[client.clientid] = response.data.sort((a, b) => new Date(b.starttime) - new Date(a.starttime));
-          } catch (error) {
-            console.error(`Error getting timers for client ${client.name}:`, error);
-          }
-        }
-        setClientTimers(sortedTimers);
-      };
-
-      useEffect(() => {
-        getClientTimers();
-      }, [clients, refreshTimersFlag]); 
-      
-
-    const formatDuration = (seconds) => {
-        const pad = (num) => num.toString().padStart(2, '0');
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        return `${pad(hours)}:${pad(minutes)}`;
-    };
-
-
-
-    //delete modal pop-up for timer entries
-    const openModal = (timerEntry) => {
-        setSelectedTimerDelete(timerEntry);
-        setIsModalOpen(true);
-    };
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setSelectedTimerDelete(null);
-    };
-
-    const deleteEntry = async (timer) => {
-        try {
-            await axios.delete(`http://localhost:8080/timers/${timer.timerid}`);
-            closeModal();
-            getTimerEntries();
-        } catch (error) {
-            console.error("Error deleting timer entry:", error);
-        }
-    };
 
 
     //delete modal pop-up for clients
@@ -96,11 +31,12 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
         setSelectedClientToDelete(client);
         setIsClientModalOpen(true);
     };
-
+    
     const closeClientModal = () => {
         setIsClientModalOpen(false);
         setSelectedClientToDelete(null);
     };
+    
 
     const deleteClient = async () => {
         if (selectedClientToDelete) {
@@ -137,33 +73,7 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
         }
     };
 
-    //Invoice Toggle
-    const handleToggleInvoiceStatus = async (timer) => {
-        await toggleInvoiceStatus(timer.timerid, timer.invoiced);
-      };
 
-
-    const handleCheckboxChange = (timerId) => {
-        setSelectedTimers((prevSelectedTimers) => {
-            if (prevSelectedTimers.includes(timerId)) {
-                return prevSelectedTimers.filter((id) => id !== timerId);
-            } else {
-                return [...prevSelectedTimers, timerId];
-            }
-        });
-    };
-
-
-    const handleCreateInvoice = () => {
-        const entriesToInvoice = timerEntries.filter(entry => selectedTimers.includes(entry.timerid));
-        setSelectedEntries(entriesToInvoice);
-        navigate('/invoices');
-    };
-
-
-    const handleAddEntry = () => {
-        navigate('/timers/add');
-    };
 
     const handleAddNewClient = () => {
         navigate('/clients/add');
@@ -179,61 +89,41 @@ function ClientsPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
 
     return (
         <>
-            <section>
-                <div>
-                    <button onClick={handleAddNewClient}>Add New Client</button>
-                    <button onClick={handleAddEntry}>Add New Entry</button>
-                    <button onClick={handleCreateInvoice}>Create Invoice</button>
+            <section className="clients-page">
+                <h1 className="clients-page__title">All your awesome Clients</h1>
+                <div className="clients-page__actions">
+                    <button onClick={handleAddNewClient} className="clients-page__add-btn">
+                        Add New Client
+                    </button>
                 </div>
-                <h1>Clients</h1>
-                {clients.map((client) => (
-                    <div key={client.clientid}>
-                        <h2>{client.name}</h2>
-                        <button onClick={() => openClientModal(client)}>
-                            <img src={deleteIcon} alt="Delete" />
-                        </button>
-                        <button onClick={() => openEditClientModal(client)}>
+
+                <div className="clients-page__table">
+                    <div className="clients-page__table-header">
+                        <div className="client__td-heading">Name</div>
+                        <div className="client__td-heading">Email</div>
+                        <div className="client__td-heading">Phone</div>
+                        <div className="client__td-heading">Address</div>
+                        <div className="client__td-heading">Actions</div>
+                    </div>
+
+                    {clients.map((client) => (
+                        <div key={client.clientid} className="client">
+                            <div className="client__text client__name">{client.name}</div>
+                            <div className="client__text">{client.email}</div>
+                            <div className="client__text">{client.phone}</div>
+                            <div className="client__text">{client.address}</div>
+                            <div className="client__actions">
+                                <button onClick={() => openClientModal(client)} className="client__delete-btn">
+                                    <img src={deleteIcon} alt="Delete" />
+                                </button>
+                                <button onClick={() => openEditClientModal(client)} className="client__edit-btn">
                             <img src={editIcon} alt="Edit" />
                         </button>
-                        <p>{client.email}</p>
-                        <p>{client.phone}</p>
-                        <p>{client.address}</p>
-
-                        <div>
-                            {clientTimers[client.clientid]?.map((timer) => (
-                                <div key={timer.timerid}>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedTimers.includes(timer.timerid)}
-                                        onChange={() => handleCheckboxChange(timer.timerid)}
-                                    />
-
-                                    <div>Date: {timer.starttime.slice(0, 10)}</div>
-                                    <div>StartTime: {timer.starttime.slice(11, 19)}</div>
-                                    <div>EndTime: {timer.endtime.slice(11, 19)}</div>
-                                    <div>Duration/Time: {formatDuration(timer.duration)}</div>
-                                    <div>Task: {timer.description}</div>
-                                    <div>Billing Status: {timer.invoiced ? "Invoiced" : "Not Invoiced"}</div>
-                                    <button onClick={() => toggleInvoiceStatus(timer.timerid, timer.invoiced)}>
-                                        {timer.invoiced ? "Mark as Not Invoiced" : "Mark as Invoiced"}
-                                    </button>
-                                    <button onClick={() => openModal(timer)}>
-                                        <img src={deleteIcon} alt="Delete" />
-
-                                    </button>
-                                    <DeleteModal
-                                        isOpen={isModalOpen}
-                                        onClose={closeModal}
-                                        onDelete={() => deleteEntry(selectedTimerDelete)}
-                                        selectedEntryDelete={selectedTimerDelete}
-                                        clients={clients}
-                                    />
-
-                                </div>
-                            ))}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
+
                 <DeleteClientModal
                     isOpen={isClientModalOpen}
                     onClose={closeClientModal}

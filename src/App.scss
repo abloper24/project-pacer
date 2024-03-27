@@ -29,6 +29,9 @@ p, button, link,  a {
     @include m-h3;
     font-weight: 400;
     outline: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 
     :focus, :focus-visible{
         border-color: $focus-blue
@@ -37,7 +40,7 @@ p, button, link,  a {
 
  ::placeholder, select {
     font-family: 'WorkSans', 'sans serif';
-    color: $grey;
+    color: $dark-grey;
     @include m-h3;
     font-weight: 400;
 

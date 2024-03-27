@@ -317,7 +317,7 @@ function InvoicesPage({ selectedEntries, clients }) {
                                     placeholder="Select tax rate..."
                                 />
                             </div>
-                            <label>Amount: $</label>
+                            <label className="invoice__label">Amount: $</label>
                             <input
                                 type="text"
                                 id={`amount-${selectedEntries.timerid}`}
@@ -330,10 +330,10 @@ function InvoicesPage({ selectedEntries, clients }) {
                 </div>
 
                     {/* totals */}
-                <div>
-                    <p>Subtotal ${subtotal}</p>
-                    <p>{getTaxName(selectedTaxRate)}: ${taxAmount}</p>
-                    <p>Total ${totalAmount}</p>
+                <div className="invoice__field">
+                    <label className="invoice__label">Subtotal ${subtotal}</label>
+                    <label className="invoice__label">{getTaxName(selectedTaxRate)}: ${taxAmount}</label>
+                    <label className="invoice__label">Total ${totalAmount}</label>
                 </div>
 
                 {/* terms and conditions */}

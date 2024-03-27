@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Select from 'react-select';
 import axios from "axios";
-import { format as formatDate } from 'date-fns';
+import { useNavigate } from "react-router-dom";
+import { format as formatDate, utcToZonedTime } from 'date-fns-tz';
+
 import "./TimerPage.scss";
 import Quotes from "../../components/Quotes/Quotes";
 
@@ -11,6 +13,10 @@ function TimerPage({ clients, getTimerEntries }) {
     const [elapsedTime, setElapsedTime] = useState(0);
     const [description, setDescription] = useState("");
     const [selectedClient, setSelectedClient] = useState(null);
+
+    const navigate = useNavigate();
+    const timeZone = 'America/Vancouver';
+
 
     // format elapsed time
     function formatTime(seconds) {
@@ -41,6 +47,7 @@ function TimerPage({ clients, getTimerEntries }) {
     const stopTimer = () => {
         setIsRunning(false);
         logTimeEntry();
+        navigate("/timers");
     };
 
     const resetTimer = () => {
@@ -54,10 +61,14 @@ function TimerPage({ clients, getTimerEntries }) {
         const endTime = new Date();
         const duration = (endTime - startTime) / 1000; // duration in secs
 
+        // convert to Vancouver timezone
+        const zonedStartTime = utcToZonedTime(startTime, timeZone);
+        const zonedEndTime = utcToZonedTime(endTime, timeZone);
+
         try {
             await axios.post('http://localhost:8080/timers', {
-                starttime: formatDate(startTime, 'yyyy-MM-dd HH:mm:ss'),
-                endtime: formatDate(endTime, 'yyyy-MM-dd HH:mm:ss'),
+                starttime: formatDate(zonedStartTime, 'yyyy-MM-dd HH:mm:ss', { timeZone }),
+                endtime: formatDate(zonedEndTime, 'yyyy-MM-dd HH:mm:ss', { timeZone }),
                 duration,
                 description,
                 clientid: selectedClient ? selectedClient.value : null,

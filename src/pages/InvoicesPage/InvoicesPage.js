@@ -35,6 +35,7 @@ function InvoicesPage({ selectedEntries, clients }) {
             return;
         }
         generatePDF();
+        navigate("/");
     };
 
     // form validation function

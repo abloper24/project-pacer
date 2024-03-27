@@ -85,65 +85,84 @@ function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
 
     return (
         <>
-            <section>
-                <h1>Entries</h1>
-                <p> this is the time entries page</p>
-                <div>
-                    <button onClick={handleAddEntry}>
+            <section className="entries-page">
+                <h1 className="entries-page__title">Time Entries</h1>
+                <p className="entries-page__description">You rock - here are all the time entries you have done!</p>
+                <div className="entries-page__actions">
+                    <button onClick={handleAddEntry} className="entries-page__add-btn">
                         Add New Entry
                     </button>
-                </div>
-
-                <div>
-                    <button onClick={handleCreateInvoice}>
+                    <button onClick={handleCreateInvoice} className="entries-page__invoice-btn">
                         Create Invoice
                     </button>
+
                 </div>
 
-                {/* table heading for tablet and desktop version */}
-                {/* <div>
-            <h3>Checkbox</h3>
-            <h3>Date</h3>
-            <h3>StartTime</h3>
-            <h3>EndTime</h3>
-            <h3>Duration/Time</h3>
-            <h3>Task</h3>
-            <h3>Client Name</h3>
-            <h3>Billing Status</h3>
-        </div> */}
+                <div className="entries-page__table">
+                    <div className="entries-page__table-header">
+                        <div className="entry__td-heading">  </div>
+                        <div className="entry__td-heading">Date</div>
+                        <div className="entry__td-heading">Start</div>
+                        <div className="entry__td-heading">End</div>
+                        <div className="entry__td-heading">Duration</div>
+                        <div className="entry__td-heading">Task</div>
+                        <div className="entry__td-heading">Client Name</div>
+                        <div className="entry__td-heading">Billing Status</div>
+                        <div className="entry__td-heading">Actions</div>
+                    </div>
 
-                <div>
                     {timerEntries.map((timerEntry) => (
-                        <div key={timerEntry.timerid}>
-                            <div>
-                                <input
-                                    type="checkbox"
-                                    checked={uiSelectedEntries.includes(timerEntry.timerid)}
-                                    onChange={() => handleSelectCheckbox(timerEntry.timerid)}
-                                />
-                            
-
-
+                        <div key={timerEntry.timerid} className="entry">
+                            <input
+                                type="checkbox"
+                                checked={uiSelectedEntries.includes(timerEntry.timerid)}
+                                onChange={() => handleSelectCheckbox(timerEntry.timerid)}
+                                className="entry__checkbox"
+                            />
+                            <div className="entry__item">
+                                <div className="entry__label">Date:</div>
+                                <div className="entry__text">{timerEntry.starttime.slice(0, 10)}</div>
+                            </div>
+                            <div className="entry__item">
+                                <div className="entry__label">Start:</div>
+                                <div className="entry__text">{timerEntry.starttime.slice(11, 19)}</div>
 
                             </div>
-                            <div>Date: {timerEntry.starttime.slice(0, 10)}</div>
-                            <div>StartTime: {timerEntry.starttime.slice(11, 19)}</div>
-                            <div>EndTime: {timerEntry.endtime.slice(11, 19)}</div>
-                            <div>Duration/Time: {formatDuration(timerEntry.duration)}</div>
-                            <div>Task: {timerEntry.description}</div>
-                            <div>Client Name: {clients.find(client => client.clientid === timerEntry.clientid)?.name}</div>
-                            <div>Billing Status: {timerEntry.invoiced ? "Invoiced" : "Not Invoiced"}</div>
-                            <button onClick={() => toggleInvoiceStatus(timerEntry.timerid, timerEntry.invoiced)}>
-                                {timerEntry.invoiced ? "Mark as Not Invoiced" : "Mark as Invoiced"}
-                            </button>
-                            <div>
-                                <button
-                                    onClick={() => openModal(timerEntry)}
-                                >
+
+                            <div className="entry__item">
+                                <div className="entry__label">End:</div>
+                                <div className="entry__text">{timerEntry.endtime.slice(11, 19)}</div>
+                            </div>
+
+                            <div className="entry__item">
+                                <div className="entry__label">Duration:</div>
+                                <div className="entry__text">{formatDuration(timerEntry.duration)}</div>
+
+                            </div>
+
+                            <div className="entry__item">
+                                <div className="entry__label">Task:</div>
+                                <div className="entry__text">{timerEntry.description}</div>
+
+                            </div>
+
+                            <div className="entry__item">
+                                <div className="entry__label">Client:</div>
+                                <div className="entry__text">{clients.find(client => client.clientid === timerEntry.clientid)?.name}</div>
+
+                            </div>
+                            <div className="entry__item">
+                                <div className="entry__label">Billing Status:</div>
+                                <div className="entry__text">{timerEntry.invoiced ? "Invoiced" : "Not Invoiced"}</div>
+                            </div>
+
+                            <div className="entry__actions entry__actions">
+                                <button onClick={() => toggleInvoiceStatus(timerEntry.timerid, timerEntry.invoiced)} className="entry__invoice-btn">
+                                    {timerEntry.invoiced ? "Mark as Not Invoiced" : "Mark as Invoiced"}
+                                </button>
+                                <button onClick={() => openModal(timerEntry)} className="entry__delete-btn">
                                     <img src={deleteIcon} alt="Delete" />
                                 </button>
-
-
                                 <DeleteModal
                                     isOpen={isModalOpen}
                                     onClose={closeModal}
@@ -151,14 +170,13 @@ function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
                                     selectedEntryDelete={selectedEntryDelete}
                                     clients={clients}
                                 />
-
                             </div>
                         </div>
                     ))}
                 </div>
-
             </section>
         </>
+
     )
 }
 

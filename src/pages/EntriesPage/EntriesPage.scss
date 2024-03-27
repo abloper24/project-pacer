@@ -1,3 +1,115 @@
 @use "../../styles/partials/mixins" as *;
 @use "../../styles/partials/fonts" as *;
 @use "../../styles/partials/variables" as *;
+
+.entries-page {
+  max-width: 1040px;
+  margin: auto;
+
+  &__title,
+  &__description {
+    text-align: center;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    button {
+      @include m-main-button;
+    }
+  }
+
+  &__table-header {
+    display: none;
+    @include tablet {
+      display: contents;
+      background-color: $light-green;
+      padding: 10px;
+      margin-bottom: 10px;
+      display: grid;
+      grid-template-columns: 50px repeat(7, 1fr) 120px;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+}
+
+.entry {
+  border-bottom: 1px solid $grey;
+  margin-bottom: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @include tablet {
+    display: grid;
+    grid-template-columns: 50px repeat(7, 1fr) 120px;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+  }
+
+  &__checkbox {
+    cursor: pointer;
+    accent-color: $focus-blue;
+    margin-bottom: 12px;
+    @include tablet {
+      order: -1;
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    display: flex;
+    flex: 1;
+    @include tablet {
+      display: none;
+    }
+  }
+
+  &__text,
+  &__actions {
+    flex: 1;
+    text-align: left;
+    justify-content: space-evenly;
+
+    @include tablet {
+      text-align: left;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 20px 10px;
+    gap: 16px;
+    @include tablet {
+      justify-content: flex-end;
+      display: flex;
+      gap: 10px;
+        flex-direction: column;
+    }
+  }
+
+  &__invoice-btn {
+    background-color: $light-green;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 5px;
+    font-weight: 500;
+    width: 100%;
+  }
+  &__delete-btn {
+    background-color: transparent;
+    border: none;
+  }
+}

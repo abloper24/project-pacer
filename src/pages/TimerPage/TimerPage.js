@@ -83,7 +83,8 @@ function TimerPage({ clients, getTimerEntries }) {
                 <p className="timer__instructions">Please select a client before starting the timer</p>
 
                 <div className="timer__select-container">
-                    <Select className="timer__select"
+                    <Select
+                        className="timer__select"
                         value={selectedClient}
                         onChange={setSelectedClient}
                         options={clientOptions}
@@ -91,9 +92,8 @@ function TimerPage({ clients, getTimerEntries }) {
                     />
                 </div>
 
-
                 <div className="timer__elapsed-time-container">
-                    <p className="timer__elapsed-time"  > Elapsed Time: {formatTime(elapsedTime)} </p>
+                    <p className="timer__elapsed-time">Elapsed Time: {formatTime(elapsedTime)}</p>
                 </div>
 
                 <div className="timer__controls">
@@ -103,26 +103,21 @@ function TimerPage({ clients, getTimerEntries }) {
                     <button
                         className="timer__btns"
                         onClick={stopTimer} disabled={!isRunning || !selectedClient}>Stop</button>
-
                     <button
                         className="timer__btns"
                         onClick={resetTimer} disabled={isRunning}>Reset</button>
                 </div>
 
                 <div className="timer__description-container">
-                    <textarea className="timer__description"
+                    <textarea
+                        className="timer__description"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="What tasks are you tackling today?"
                     ></textarea>
                 </div>
-
-
-
-
-
-
             </section>
+
             <Quotes />
         </>
     );

@@ -1,6 +1,8 @@
+import "./AddNewEntryPage.scss";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Select from 'react-select';
 
 function AddNewEntryPage({ clients }) {
     const [entryDate, setEntryDate] = useState("");
@@ -15,6 +17,18 @@ function AddNewEntryPage({ clients }) {
             setSelectedClientId(clients[0].clientid.toString());
         }
     }, [clients]);
+
+    //select react 
+    const clientOptions = clients.map(client => ({
+        value: client.clientid.toString(),
+        label: client.name,
+    }));
+    const selectedOption = clientOptions.find(option => option.value === selectedClientId);
+    const handleSelectChange = selectedOption => {
+        setSelectedClientId(selectedOption.value);
+    };
+
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -52,48 +66,60 @@ function AddNewEntryPage({ clients }) {
 
 
     return (
-        <section>
-            <h1>Add a New Entry Page</h1>
-            <form onSubmit={handleSubmit}>
-                <label>Date:</label>
-                <input
-                    type="date"
-                    id="entry-date"
-                    name="entry-date"
-                    value={entryDate}
-                    onChange={(e) => setEntryDate(e.target.value)}
-                />
+        <section className="entry-form">
+            <h1 className="entry-form__title">Add a New Entry Page</h1>
+            <form onSubmit={handleSubmit} className="entry-form__form">
+                <div className="entry-form__field">
+                    <label htmlFor="entry-date" className="entry-form__label">Date:</label>
+                    <input
+                        type="date"
+                        id="entry-date"
+                        name="entry-date"
+                        className="entry-form__input"
+                        value={entryDate}
+                        onChange={(e) => setEntryDate(e.target.value)}
+                    />
+                </div>
 
-                <label>Duration:</label>
-                <input
-                    type="text"
-                    id="duration"
-                    placeholder="HH:MM"
-                    value={duration}
-                    onChange={(e) => setDuration(e.target.value)}
-                />
+                <div className="entry-form__field">
+                    <label htmlFor="duration" className="entry-form__label">Duration:</label>
+                    <input
+                        type="text"
+                        id="duration"
+                        className="entry-form__input"
+                        placeholder="HH:MM"
+                        value={duration}
+                        onChange={(e) => setDuration(e.target.value)}
+                    />
+                </div>
 
-                <label>Task:</label>
-                <textarea
-                    id="task-entry"
-                    placeholder="What task did you forget to track?"
-                    value={task}
-                    onChange={(e) => setTask(e.target.value)}
-                />
-                <label>Client:</label>
-                <select
-                    value={selectedClientId}
-                    onChange={(e) => setSelectedClientId(e.target.value)}
-                >
-                    {clients.map((client) => (
-                        <option key={client.clientid} value={client.clientid}>
-                            {client.name}
-                        </option>
-                    ))}
-                </select>
-                <button type="submit">Add Entry</button>
+                <div className="entry-form__field">
+                    <label htmlFor="task-entry" className="entry-form__label">Task:</label>
+                    <textarea
+                        id="task-entry"
+                        className="entry-form__textarea"
+                        placeholder="What task did you forget to track?"
+                        value={task}
+                        onChange={(e) => setTask(e.target.value)}
+                    />
+                </div>
+
+                <div className="entry-form__field">
+                    <label htmlFor="client" className="entry-form__label">Client:</label>
+                    <Select
+                        id="client"
+                        className="entry-form__select"
+                        value={selectedOption}
+                        onChange={handleSelectChange}
+                        options={clientOptions}
+                        placeholder="Select a client..."
+                    />
+                </div>
+
+                <button type="submit" className="entry-form__submit-btn">Add Entry</button>
             </form>
         </section>
+
     );
 }
 

@@ -1,0 +1,52 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/fonts" as *;
+@use "../../styles/partials/variables" as *;
+
+.entry-form {
+  &__title {
+    margin-bottom: 20px; 
+    text-align: center;
+    @include m-h1;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    width: 100%; 
+    max-width: 500px; 
+    margin: auto; 
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; 
+  }
+
+  &__label {
+    @include m-h3;
+  }
+
+  &__input,
+  &__select,
+  &__textarea {
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+
+    &:focus {
+      border-color: $brown; 
+    }
+  }
+
+  &__textarea {
+    height: 100px; 
+    resize: vertical; 
+  }
+
+  &__submit-btn {
+    @include m-main-button; 
+    margin-top: 20px; 
+  }
+}

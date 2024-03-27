@@ -18,7 +18,18 @@ body {
 }
 
 
-p, button, link, input, a, ::placeholder, select, label, textarea {
+p, button, link,  a {
     font-family: 'WorkSans', 'sans serif';
     color: $brown;
+}
+
+ input, ::placeholder, select, textarea {
+    font-family: 'WorkSans', 'sans serif';
+    color: $grey;
+    @include m-h3;
+    font-weight: 400;
+
+    :focus{
+        border-color: $focus-blue
+    }
 }

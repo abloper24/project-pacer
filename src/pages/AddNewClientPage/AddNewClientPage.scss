@@ -1,0 +1,44 @@
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/fonts" as *;
+@use "../../styles/partials/variables" as *;
+
+.client-form {
+    &__title {
+      margin-bottom: 20px; 
+      text-align: center;
+    }
+  
+    &__form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px; 
+      width: 100%; 
+      max-width: 500px; 
+      margin: auto; 
+    }
+  
+    &__field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px; 
+    }
+  
+    &__label {
+      @include m-h3;
+    }
+  
+    &__input {
+      padding: 10px; 
+      border: 1px solid #ccc; 
+      border-radius: 4px; 
+  
+      &:focus {
+        border-color: $brown; 
+      }
+    }
+  
+    button {
+      @include m-main-button;
+    }
+  }
+  

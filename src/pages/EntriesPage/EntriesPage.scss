@@ -18,7 +18,7 @@
   &__actions {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
 
     button {
       @include m-main-button;
@@ -37,6 +37,19 @@
       align-items: center;
       gap: 10px;
     }
+  }
+
+  &__validation-message{
+    color: red; 
+    font-size: 12px;
+    margin-top: 4px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    @include tablet{
+      justify-content: flex-end;
+    }
+  
   }
 }
 

@@ -13,6 +13,8 @@ function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
     const [selectedEntryDelete, setselectedEntryDelete] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const [invoiceClickWithoutSelection, setInvoiceClickWithoutSelection] = useState(false);
+
 
     const navigate = useNavigate();
 
@@ -31,15 +33,17 @@ function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
         return `${pad(hours)}:${pad(minutes)}`;
     }
 
-    //selecting entries with checkbox 
+
     const handleSelectCheckbox = (timerId) => {
         const newSelectedEntries = uiSelectedEntries.includes(timerId) ? uiSelectedEntries.filter(id => id !== timerId) : [...uiSelectedEntries, timerId];
         setUISelectedEntries(newSelectedEntries);
 
+        if (newSelectedEntries.length > 0) {
+            setInvoiceClickWithoutSelection(false); // hide  message if at least one checkbox is selected
+        }
+
         const entriesToUpdate = timerEntries.filter(entry => newSelectedEntries.includes(entry.timerid));
         setSelectedEntries(entriesToUpdate);
-
-
     };
 
 
@@ -66,10 +70,18 @@ function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
     };
 
 
-
     const handleCreateInvoice = () => {
+        if (uiSelectedEntries.length === 0) {
+            // no entries selected, show message
+            setInvoiceClickWithoutSelection(true);
+            return;
+        }
+        setInvoiceClickWithoutSelection(false);
+        const entriesToInvoice = timerEntries.filter(entry => uiSelectedEntries.includes(entry.timerid));
+        setSelectedEntries(entriesToInvoice);
         navigate('/invoices');
     };
+
 
     const handleAddEntry = () => {
         navigate('/timers/add');
@@ -95,8 +107,12 @@ function EntriesPage({ clients, timerEntries, getTimerEntries, setSelectedEntrie
                     <button onClick={handleCreateInvoice} className="entries-page__invoice-btn">
                         Create Invoice
                     </button>
-
                 </div>
+                {invoiceClickWithoutSelection && (
+                        <div className="entries-page__validation-message">
+                            Please select at least one entry to create an invoice.
+                        </div>
+                    )}
 
                 <div className="entries-page__table">
                     <div className="entries-page__table-header">

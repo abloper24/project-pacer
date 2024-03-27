@@ -30,11 +30,7 @@
   &__label {
     @include m-h3;
   }
-  &__input{
-   
-   
-  }
-
+ 
   &__select {
     padding: 10px;
     border: 1px solid #ccc;
@@ -80,6 +76,12 @@
   &__column-left{
     margin-right: 20px;
 
+  }
+
+  &__validation-message{
+    color: red; 
+    font-size: 12px;
+    margin-top: 4px;
   }
  
 }

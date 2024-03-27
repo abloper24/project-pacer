@@ -10,28 +10,64 @@ function AddNewEntryPage({ clients }) {
     const [task, setTask] = useState("");
     const [selectedClientId, setSelectedClientId] = useState("");
 
+    //form vlidation states
+    const [errors, setErrors] = useState({});
+
+
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (clients.length > 0) {
-            setSelectedClientId(clients[0].clientid.toString());
+    // form validation of each field
+    const validateForm = () => {
+        let isValid = true;
+        let errors = {};
+
+        if (!entryDate) {
+            isValid = false;
+            errors['entryDate'] = 'Please enter date';
         }
-    }, [clients]);
+
+        if (!duration || !/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(duration)) {
+            isValid = false;
+            errors['duration'] = 'Please enter duration in format HH:MM.';
+        }
+
+        if (!task.trim()) {
+            isValid = false;
+            errors['task'] = 'Please enter a task description';
+        }
+
+        if (!selectedClientId) {
+            isValid = false;
+            errors['client'] = 'Please select a Client';
+        }
+
+        setErrors(errors);
+        return isValid;
+    };
 
     //select react 
     const clientOptions = clients.map(client => ({
         value: client.clientid.toString(),
         label: client.name,
     }));
-    const selectedOption = clientOptions.find(option => option.value === selectedClientId);
-    const handleSelectChange = selectedOption => {
-        setSelectedClientId(selectedOption.value);
-    };
+    const selectedOption = clientOptions.find(option => option.value === selectedClientId || null);
 
+    const handleSelectChange = selectedOption => {
+        if (selectedOption) {
+            setSelectedClientId(selectedOption.value);
+    
+        } else {
+            setSelectedClientId("");
+        }
+    };
 
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (!validateForm()) {
+            return; // stop submission if validation fails
+        }
 
         try {
             //  HH:MM format to duration in seconds (backend format)
@@ -70,7 +106,7 @@ function AddNewEntryPage({ clients }) {
             <h1 className="entry-form__title">Add a New Entry Page</h1>
             <form onSubmit={handleSubmit} className="entry-form__form">
                 <div className="entry-form__field">
-                    <label htmlFor="entry-date" className="entry-form__label">Date:</label>
+                    <label className="entry-form__label">Date:</label>
                     <input
                         type="date"
                         id="entry-date"
@@ -79,10 +115,11 @@ function AddNewEntryPage({ clients }) {
                         value={entryDate}
                         onChange={(e) => setEntryDate(e.target.value)}
                     />
+                    {errors.entryDate && <div className="entry-form__validation-message">{errors.entryDate}</div>}
                 </div>
 
                 <div className="entry-form__field">
-                    <label htmlFor="duration" className="entry-form__label">Duration:</label>
+                    <label className="entry-form__label">Duration:</label>
                     <input
                         type="text"
                         id="duration"
@@ -91,10 +128,11 @@ function AddNewEntryPage({ clients }) {
                         value={duration}
                         onChange={(e) => setDuration(e.target.value)}
                     />
+                    {errors.duration && <div className="entry-form__validation-message">{errors.duration}</div>}
                 </div>
 
                 <div className="entry-form__field">
-                    <label htmlFor="task-entry" className="entry-form__label">Task:</label>
+                    <label className="entry-form__label">Task:</label>
                     <textarea
                         id="task-entry"
                         className="entry-form__textarea"
@@ -102,10 +140,11 @@ function AddNewEntryPage({ clients }) {
                         value={task}
                         onChange={(e) => setTask(e.target.value)}
                     />
+                    {errors.task && <div className="entry-form__validation-message">{errors.task}</div>}
                 </div>
 
                 <div className="entry-form__field">
-                    <label htmlFor="client" className="entry-form__label">Client:</label>
+                    <label  className="entry-form__label">Client:</label>
                     <Select
                         id="client"
                         className="entry-form__select"
@@ -113,7 +152,10 @@ function AddNewEntryPage({ clients }) {
                         onChange={handleSelectChange}
                         options={clientOptions}
                         placeholder="Select a client..."
+                        isClearable
+                        isSearchable
                     />
+                    {errors.client && <div className="entry-form__validation-message">{errors.client}</div>}
                 </div>
 
                 <button type="submit" className="entry-form__submit-btn">Add Entry</button>

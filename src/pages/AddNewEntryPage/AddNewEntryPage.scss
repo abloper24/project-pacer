@@ -49,4 +49,10 @@
     @include m-main-button; 
     margin-top: 20px; 
   }
+
+  &__validation-message{
+    color: red; 
+    font-size: 12px;
+    margin-top: 4px;
+  }
 }

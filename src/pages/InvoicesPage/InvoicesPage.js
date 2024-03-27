@@ -19,6 +19,55 @@ function InvoicesPage({ selectedEntries, clients }) {
     const [selectedTaxRate, setSelectedTaxRate] = useState(0);
     const [invoiceNumber, setInvoiceNumber] = useState("");
 
+    //form validation state
+    const [errors, setErrors] = useState({});
+    //only generate pdf if form is valid
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+        generatePDF();
+    };
+
+    // form validation function
+    const validateForm = () => {
+        let formIsValid = true;
+        let newErrors = {};
+
+        if (!invoiceNumber.trim()) {
+            newErrors["invoiceNumber"] = "Please enter an Invoice Number";
+            formIsValid = false;
+        }
+
+        if (!invoiceDate.trim()) {
+            newErrors["invoiceDate"] = "Please enter Invoice Date";
+            formIsValid = false;
+        }
+
+        if (!invoiceDueDate.trim()) {
+            newErrors["invoiceDueDate"] = "Wanna get paid? Enter the due date. ";
+            formIsValid = false;
+        }
+
+        const hasInvalidRate = selectedEntries.some(entry => !rates[entry.timerid] || rates[entry.timerid] <= 0);
+        if (hasInvalidRate) {
+            newErrors["rates"] = "Please enter a rate -- your work's $$";
+            formIsValid = false;
+        }
+
+        if (selectedTaxRate === null || selectedTaxRate === undefined) {
+            newErrors["taxRate"] = "Please select a tax rate";
+            formIsValid = false;
+        }
+
+        setErrors(newErrors);
+        return formIsValid;
+    };
+
+
+
     const clientForInvoice = clients.find(client => client.clientid === selectedEntries[0]?.clientid) || {};
 
     const taxOptions = [
@@ -35,6 +84,7 @@ function InvoicesPage({ selectedEntries, clients }) {
     const handleRateChange = (timerId, rate) => {
         setRates(prevRates => ({ ...prevRates, [timerId]: rate }));
     };
+
 
 
     // round seconds up to min and then to h
@@ -215,7 +265,7 @@ function InvoicesPage({ selectedEntries, clients }) {
     return (
         <div className="invoice">
             <h1 className="invoice__title">Invoices</h1>
-            <form className="invoice__form">
+            <form className="invoice__form" onSubmit={handleSubmit}>
 
                 {/* invoice number */}
                 <div className="invoice__field">
@@ -228,6 +278,7 @@ function InvoicesPage({ selectedEntries, clients }) {
                         value={invoiceNumber}
                         onChange={e => setInvoiceNumber(e.target.value)}
                     />
+                    {errors.invoiceNumber && <p className="invoice__validation-message">{errors.invoiceNumber}</p>}
                 </div>
 
                 {/* invoice date */}
@@ -240,6 +291,7 @@ function InvoicesPage({ selectedEntries, clients }) {
                         value={invoiceDate}
                         onChange={e => setInvoiceDate(e.target.value)}
                     />
+                    {errors.invoiceDate && <p className="invoice__validation-message">{errors.invoiceDate}</p>}
                 </div>
 
                 {/* due date */}
@@ -252,6 +304,7 @@ function InvoicesPage({ selectedEntries, clients }) {
                         value={invoiceDueDate}
                         onChange={e => setInvoiceDueDate(e.target.value)}
                     />
+                    {errors.invoiceDueDate && <p className="invoice__validation-message">{errors.invoiceDueDate}</p>}
                 </div>
 
                 {/* selected Entries */}
@@ -274,12 +327,12 @@ function InvoicesPage({ selectedEntries, clients }) {
 
                                     <div className="invoice__input"> {entry.starttime.slice(0, 10)}</div>
                                 </div>
-                                
+
                             </div>
 
                             {/* right column  */}
                             <div className="invoice__column invoice__column-rigth">
-                            <div className="invoice__field">
+                                <div className="invoice__field">
                                     <div className="invoice__label">Task Hours:</div>
                                     <div className="invoice__input"> {roundedMinutesIntoHours(entry.duration)}</div>
                                 </div>
@@ -291,6 +344,7 @@ function InvoicesPage({ selectedEntries, clients }) {
                                         value={rates[entry.timerid] || ''}
                                         onChange={e => handleRateChange(entry.timerid, Number(e.target.value))}
                                     />
+                                    {errors.rates && <p className="invoice__validation-message">{errors.rates}</p>}
                                 </div>
 
                                 <div className="invoice__field">
@@ -319,7 +373,7 @@ function InvoicesPage({ selectedEntries, clients }) {
                         options={taxOptions}
                         placeholder="Select tax rate..."
                     />
-
+                    {errors.taxRate && <p className="invoice__validation-message">{errors.taxRate}</p>}
                 </div>
                 <div className="invoice__field">
                     <label className="invoice__label">Subtotal ${subtotal}</label>
@@ -351,7 +405,7 @@ function InvoicesPage({ selectedEntries, clients }) {
 
                 {/* export PDF */}
                 <div className="invoice__actions">
-                    <button type="button" className="invoice__export-btn" onClick={generatePDF}>
+                    <button type="submit" className="invoice__export-btn">
                         Create Invoice
                     </button>
                 </div>

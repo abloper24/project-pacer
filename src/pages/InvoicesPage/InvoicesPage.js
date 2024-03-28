@@ -163,10 +163,10 @@ function InvoicesPage({ selectedEntries, clients }) {
         let addressXPosition = pageWidth - rightMargin;
         let addressLines = [
             'Andrea Blobel Pérez',
-            '1100 Bidwell',
+            '1100 Nanaimo St',
             'Vancouver, BC V9G 8C6',
             'Canada',
-            '672-515-6767',
+            '672-535-6767',
             'billing@email.com'
         ];
 

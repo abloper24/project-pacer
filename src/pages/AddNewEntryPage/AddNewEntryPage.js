@@ -113,7 +113,7 @@ function AddNewEntryPage({ clients }) {
            <button className='entry-form__back-btn' 
             onClick={handleBackClick}><img 
             src={arrowBack} alt='arrow_back-24px' /></button>
-            <h1 className="entry-form__title">Add a New Entry Page</h1>
+            <h1 className="entry-form__title">Add a New Entry</h1>
             </div>
             
             <form onSubmit={handleSubmit} className="entry-form__form">

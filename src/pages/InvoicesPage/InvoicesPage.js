@@ -278,7 +278,7 @@ function InvoicesPage({ selectedEntries, clients }) {
                 <button className='invoice__back-btn'
                     onClick={handleBackClick}><img
                         src={arrowBack} alt='arrow_back-24px' /></button>
-                <h1 className="invoice__title">Invoices</h1>
+                <h1 className="invoice__title">Create Invoice</h1>
             </div>
 
             <form className="invoice__form" onSubmit={handleSubmit}>

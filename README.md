@@ -4,6 +4,10 @@
 
 **ProjectPacer** is a web-based application crafted specifically for freelancers, aiming to enhance their productivity by providing a way to track time spent on various projects and tasks. The app integrates a timer with start, pause, and stop functionalities, invoicing based on tracked hours, and a motivational quotes feature to inspire users throughout their workday. Additionally, ProjectPacer allows users to add detailed comments to their time entries, ensuring a comprehensive understanding of tasks completed during each tracked period.
 
+### Preview
+
+![](preview.gif)
+
 
 ### Problem
 
@@ -42,10 +46,6 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
 - **Timer Page:** Central hub for time tracking, viewing quotes, and adding comments to tasks.
 - **Time Entries Page:** Allows management and review of all time entries and can select specific time entries to create invoice.
 - **Invoices Page:** Handles the creation, review, and status management of invoices. You can click to download PDF file. 
-
-### Mockups
-
-![](mockup.jpg)
 
 
 ### Data

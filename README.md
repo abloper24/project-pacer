@@ -2,11 +2,13 @@
 
 ## Overview
 
-**ProjectPacer** is a web-based application crafted specifically for freelancers, aiming to enhance their productivity by providing a way to track time spent on various projects and tasks. The app integrates a timer with start, pause, and stop functionalities, invoicing based on tracked hours, and a motivational quotes feature to inspire users throughout their workday. Additionally, ProjectPacer allows users to add detailed comments to their time entries, ensuring a comprehensive understanding of tasks completed during each tracked period.
+**ProjectPacer** is a web-based application crafted specifically for freelancers, aiming to enhance their productivity by providing a way to track time spent on various projects and tasks. 
+
+The app integrates a timer with start and stop functionalities, invoicing based on tracked hours, and a motivational quotes feature to inspire users throughout their workday. Additionally, ProjectPacer allows users to add detailed comments to their time entries, ensuring a comprehensive understanding of tasks completed during each tracked period.
 
 ### Preview
 
-![](preview.gif)
+![](ProjectPacer.gif)
 
 
 ### Problem
@@ -84,12 +86,13 @@ ProjectPacer is designed for a freelancer who needs an efficient tool for managi
 
 ```jsx
 {
-    timerid: 1,
-    starttime: '2024-02-01 08:00:00',
-    endtime: '2024-02-01 10:00:00',
-    duration: 7200,
-    description: 'Project A kickoff meeting',
-    clientid: 1,
+    timerid: 3,
+    starttime: '2024-02-03 13:00:00',
+    endtime: '2024-02-03 15:30:00',
+    duration: 9000,
+    description: 'Design phase for Project C',
+    clientid: 3,
+    invoiced: false,
   }
 ```
 
@@ -105,29 +108,25 @@ Here’s how you can get ProjectPacer up and running on your local development m
 ### Prerequisites
 Before you begin, ensure you have the following installed on your system:
 
-- Node.js (v12.0.0 or higher)
+- Node.js 
 - npm (comes with Node.js)
-- MySQL (v5.7 or higher)
+- MySQL 
 
 ### Installation Steps
-**1. Clone the Repository**
+**1. Clone the Repositories**
 Start by cloning the ProjectPacer repository to your local machine.
 
 ```jsx
-git clone https://github.com/your-username/project-pacer.git
-cd project-pacer
+git clone https://github.com/abloper24/project-pacer
+```
+```jsx
+git clone https://github.com/abloper24/project-pacer-backend
 ```
 
 **2. Install Node Dependencies**
 Install the necessary Node.js dependencies for both the frontend and backend.
 
 ```jsx
-# Install backend dependencies
-cd backend
-npm install
-
-# Install frontend dependencies
-cd ../frontend
 npm install
 ```
 
@@ -175,5 +174,8 @@ npm start
 
 The application should open in your browser at http://localhost:3000.
 
-7. Verify the Setup
+**7. Verify the Setup**
 Ensure that the frontend communicates with the backend correctly and that you can access the database.
+
+**8. Personalize Invoice Data**
+In the frontend on the invoices page, change the logo and your business data to show in the invoice pdf. 

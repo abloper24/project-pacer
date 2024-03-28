@@ -101,6 +101,7 @@ ProjectPacer is designed for a freelancer who needs an efficient tool for managi
 
 ProjectPacer only supports a single user without authentication.
 
+
 ## Installation
 
 Here’s how you can get ProjectPacer up and running on your local development machine.
@@ -114,6 +115,7 @@ Before you begin, ensure you have the following installed on your system:
 
 ### Installation Steps
 **1. Clone the Repositories**
+
 Start by cloning the ProjectPacer repository to your local machine.
 
 ```jsx
@@ -124,6 +126,7 @@ git clone https://github.com/abloper24/project-pacer-backend
 ```
 
 **2. Install Node Dependencies**
+
 Install the necessary Node.js dependencies for both the frontend and backend.
 
 ```jsx
@@ -131,6 +134,7 @@ npm install
 ```
 
 **3. Set Up the Database**
+
 Create a MySQL database and user for the application and load the provided seed data.
 
 ```jsx
@@ -140,6 +144,7 @@ SOURCE path_to_project_pacer_database_seed.sql;
 ```
 
 **4. Configure the Environment**
+
 Set up your environment variables.
 
 - Backend .env file
@@ -150,6 +155,7 @@ DB_PASS=your_password
 DB_NAME=projectpacer
 ```
 **5. Run migrations and seed files**
+
 ```jsx
 npx knex migrate:rollback
 npx knex migrate:latest
@@ -157,6 +163,7 @@ npx knex seed:run
 ```
 
 **6. Start the Backend Server**
+
 Navigate to the backend directory and start the server.
 
 ```jsx
@@ -166,6 +173,7 @@ node --watch index.js
 The backend server should now be running on http://localhost:8080.
 
 **7. Start the Frontend Application**
+
 In a new terminal, navigate to the frontend directory and start the React app.
 
 ```jsx
@@ -175,7 +183,9 @@ npm start
 The application should open in your browser at http://localhost:3000.
 
 **7. Verify the Setup**
+
 Ensure that the frontend communicates with the backend correctly and that you can access the database.
 
 **8. Personalize Invoice Data**
+
 In the frontend on the invoices page, change the logo and your business data to show in the invoice pdf. 

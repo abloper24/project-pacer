@@ -15,7 +15,7 @@ Managing multiple projects and tasks can often lead to inefficiencies and inaccu
 
 ### User Profile
 
-ProjectPacer is designed for individual freelancers who need an efficient tool for managing their time, generating invoices, and seeking motivation. This initial version focuses on single-user functionality, with plans to expand features to support teams or agencies in future updates.
+ProjectPacer is designed for a freelancer who needs an efficient tool for managing their time, generating invoices, and seeking motivation. This initial version focuses on single-user functionality.
 
 ### Features
 
@@ -30,6 +30,12 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
 - **Data Export:** Allows users to export time tracking and invoice data for record-keeping and analysis.
 
 ## Implementation
+
+### Installation
+- Clone from GitHub the backend: https://github.com/abloper24/project-pacer-backend
+- Set up your database with an .env file 
+- Clone from GitHub the frontend: https://github.com/abloper24/project-pacer
+
 
 ### Tech Stack
 
@@ -96,7 +102,7 @@ ProjectPacer is designed for individual freelancers who need an efficient tool f
 
 ### Auth
 
-ProjectPacer will initially support a single user without authentication, with plans to introduce authentication mechanisms in future versions for expanded user functionalities.
+ProjectPacer only supports a single user without authentication.
 
 ## Roadmap
 
@@ -115,7 +121,3 @@ ProjectPacer will initially support a single user without authentication, with p
 - Feature: PDF Exporting
 - Bug Fixes
 - Demo Day
-
-## Nice-to-haves
-- **Edit Time Entries, Notes, Invoices Functionality:** To enhance the UX of the app but only if I have extra time to set this up. 
-- **Multi-User Support:** Future versions will include functionalities for team or multiple user environments.

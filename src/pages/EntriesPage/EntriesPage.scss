@@ -10,6 +10,10 @@
     @include t-padding;
   }
 
+  &__title{
+    @include m-h1;
+  }
+
   &__title,
   &__description {
     text-align: center;

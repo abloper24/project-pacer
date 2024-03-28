@@ -31,12 +31,6 @@ ProjectPacer is designed for a freelancer who needs an efficient tool for managi
 
 ## Implementation
 
-### Installation
-- Clone from GitHub the backend: https://github.com/abloper24/project-pacer-backend
-- Set up your database with an .env file 
-- Clone from GitHub the frontend: https://github.com/abloper24/project-pacer
-
-
 ### Tech Stack
 
 - **Frontend:** React.js, SASS, and React Router.
@@ -104,20 +98,82 @@ ProjectPacer is designed for a freelancer who needs an efficient tool for managi
 
 ProjectPacer only supports a single user without authentication.
 
-## Roadmap
+## Installation
 
-- Create client
-    - React project with routes and boilerplate pages
-- Create server
-    - Express project with routing
-- Create MySQL Database with seed data
-- Feature: Time Tracker (basic requirements: start, pause and reset)
-- Feature: Time entries page & post time entries 
-- Feature: Time Tracker with Comments (ability to add comments to time entry)
-- Feature: Deleting capability 
-- Front-End Design of Time Tracker 
-- Feature: Invoicing  
-- Front-End Design of Invoicing
-- Feature: PDF Exporting
-- Bug Fixes
-- Demo Day
+Here’s how you can get ProjectPacer up and running on your local development machine.
+
+### Prerequisites
+Before you begin, ensure you have the following installed on your system:
+
+- Node.js (v12.0.0 or higher)
+- npm (comes with Node.js)
+- MySQL (v5.7 or higher)
+
+### Installation Steps
+**1. Clone the Repository**
+Start by cloning the ProjectPacer repository to your local machine.
+
+```jsx
+git clone https://github.com/your-username/project-pacer.git
+cd project-pacer
+```
+
+**2. Install Node Dependencies**
+Install the necessary Node.js dependencies for both the frontend and backend.
+
+```jsx
+# Install backend dependencies
+cd backend
+npm install
+
+# Install frontend dependencies
+cd ../frontend
+npm install
+```
+
+**3. Set Up the Database**
+Create a MySQL database and user for the application and load the provided seed data.
+
+```jsx
+CREATE DATABASE projectpacer;
+USE projectpacer;
+SOURCE path_to_project_pacer_database_seed.sql;
+```
+
+**4. Configure the Environment**
+Set up your environment variables.
+
+- Backend .env file
+```jsx
+DB_HOST=localhost
+DB_USER=your_username
+DB_PASS=your_password
+DB_NAME=projectpacer
+```
+**5. Run migrations and seed files**
+```jsx
+npx knex migrate:rollback
+npx knex migrate:latest
+npx knex seed:run
+```
+
+**6. Start the Backend Server**
+Navigate to the backend directory and start the server.
+
+```jsx
+node --watch index.js
+```
+
+The backend server should now be running on http://localhost:8080.
+
+**7. Start the Frontend Application**
+In a new terminal, navigate to the frontend directory and start the React app.
+
+```jsx
+npm start
+```
+
+The application should open in your browser at http://localhost:3000.
+
+7. Verify the Setup
+Ensure that the frontend communicates with the backend correctly and that you can access the database.

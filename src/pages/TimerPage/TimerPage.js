@@ -55,6 +55,7 @@ function TimerPage({ clients, getTimerEntries }) {
         setIsRunning(false);
         setStartTime(null);
         setDescription("");
+        window.location.reload();
     };
 
     const logTimeEntry = async () => {
@@ -114,9 +115,9 @@ function TimerPage({ clients, getTimerEntries }) {
                     <button
                         className="timer__btns"
                         onClick={stopTimer} disabled={!isRunning || !selectedClient}>Stop</button>
-                    <button
+                    {/* <button
                         className="timer__btns"
-                        onClick={resetTimer} disabled={isRunning}>Reset</button>
+                        onClick={resetTimer} disabled={isRunning}>Reset</button> */}
                 </div>
 
                 <div className="timer__description-container">

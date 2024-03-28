@@ -9,6 +9,9 @@
   @include tablet{
     @include t-padding;
   }
+  &__title{
+    @include m-h1;
+  }
   
   &__title {
     text-align: center;

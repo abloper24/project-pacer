@@ -139,21 +139,19 @@ Create a MySQL database and user for the application and load the provided seed 
 
 ```jsx
 CREATE DATABASE projectpacer;
-USE projectpacer;
-SOURCE path_to_project_pacer_database_seed.sql;
 ```
 
 **4. Configure the Environment**
 
-Set up your environment variables.
+Set up your environment variables. Backend .env file:
 
-- Backend .env file
 ```jsx
 DB_HOST=localhost
 DB_USER=your_username
 DB_PASS=your_password
 DB_NAME=projectpacer
 ```
+
 **5. Run migrations and seed files**
 
 ```jsx

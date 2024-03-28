@@ -6,8 +6,6 @@ const DeleteModal = ({ isOpen, onClose, onDelete, selectedEntryDelete, clients }
   const [isModalOpen, setIsModalOpen] = useState(false);
   if (!isOpen) return null;
 
-  // console.log(selectedEntryDelete.description)
-  //cleaner way of showing this 
   const taskDescription = selectedEntryDelete.description;
   const startDate = selectedEntryDelete.starttime.slice(0, 10);
   const startTime = selectedEntryDelete.starttime.slice(11, 19);

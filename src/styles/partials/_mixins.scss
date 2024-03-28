@@ -78,14 +78,12 @@
 
 // buttons
 @mixin m-button{
-    // height: 2.25rem;
     border-radius: 1.25rem;
-    padding: 10px 16px;
+    padding: 0.625rem 1rem;
 }
 @mixin td-button{
-    // height: 2.375rem;
     border-radius: 1.25rem;
-    padding: 10px 16px;
+    padding: 0.625rem 1rem;
 }
 
 
@@ -93,17 +91,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    height: 38px;
-    padding: 14px 16px;
+    gap: 0.5rem;
+    height: 2.375rem;
+    padding: 0.875rem 1rem;
     background: $light-green;
     color: $green;
     border: none;
-    border-radius: 20px;
-    margin: 10px 10px;
+    border-radius: 1.25rem;
+    margin: 0.625rem 0.625rem;
     @include m-h3;
     img {
-      max-height: 18px;
+      max-height: 1.125rem;
     }
 
     &:hover,
@@ -119,14 +117,14 @@
   @mixin m-update-button{
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 14px 16px;
-    height: 38px;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+    height: 2.375rem;
     background: $light-green;
     color: $green;
     border: none;
-    border-radius: 20px;
-    margin: 10px 10px;
+    border-radius: 1.25rem;
+    margin: 0.625rem 0.625rem;
     @include m-h3;
     &:hover,
     :active {
@@ -142,14 +140,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 14px 16px;
-    height: 38px;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+    height: 2.375rem;
     background: red;
     color: white;
     border: none;
-    border-radius: 20px;
-    margin: 10px 10px;
+    border-radius: 1.25rem;
+    margin: 0.625rem 0.625rem;
     @include m-h3;
     &:hover,
     :active {
@@ -165,18 +163,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 14px 16px;
-    height: 38px;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+    height: 2.375rem;
     color: $brown;
     background: white;
-    border: solid 1px $brown;
-    border-radius: 20px;
-    margin: 10px 10px;
+    border: solid 0.0625rem $brown;
+    border-radius: 1.25rem;
+    margin: 0.625rem 0.625rem;
     @include m-h3;
     &:hover,
     :active {
-      border: solid 1px $green;
+      border: solid 0.0625rem $green;
       color: $green;
      
     }

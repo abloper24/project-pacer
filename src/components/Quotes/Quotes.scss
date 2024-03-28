@@ -7,13 +7,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 10px;
+    margin: 0.625rem;
     width: 100%;
-    max-width: 500px;
+    max-width: 31.25rem;
     margin: 0 auto;
     background-color: $light-green;
     @include m-padding;
-    margin-top: 20px;
+    margin-top: 1.25rem;
 
     &__title{
         @include m-h2

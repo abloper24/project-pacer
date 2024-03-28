@@ -19,15 +19,12 @@ function App() {
   const [timerEntries, setTimerEntries] = useState([]);
   const [selectedEntries, setSelectedEntries] = useState([]);
 
-  // const [checkedTimers, setCheckedTimers] = useState({}); 
-
 
   //get all clients data - doing it here as I will need this data 
   //in the timer, entries and invoice page
   const getClients = async () => {
     try {
       const response = await axios.get('http://localhost:8080/clients');
-      // console.log(response.data)
       setClients(response.data);
     } catch (error) {
       console.error('Error getting clients:', error);
@@ -46,7 +43,6 @@ function App() {
   const getTimerEntries = async () => {
     try {
       const response = await axios.get('http://localhost:8080/timers');
-      // console.log(response.data)
       setTimerEntries(response.data);
     } catch (error) {
       console.error('Error getting entries:', error);

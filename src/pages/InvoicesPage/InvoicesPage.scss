@@ -4,7 +4,7 @@
 
 
 .invoice {
-  max-width: 500px;
+  max-width: 31.25rem;
   margin: auto;
   @include m-padding;
   @include tablet{
@@ -20,27 +20,27 @@
   &__back-btn{
     background-color: transparent;
     border: none;
-    margin-right: 16px;
+    margin-right: 1rem;
   }
   &__title {
     @include m-h1;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
   }
 
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 1.875rem;
     width: 100%;
-    max-width: 500px;
+    max-width: 31.25rem;
     margin: auto;
   }
 
   &__field {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 0.3125rem;
  
   }
 
@@ -49,25 +49,25 @@
   }
  
   &__select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 0.625rem;
+    border: 0.0625rem solid #ccc;
+    border-radius: 0.25rem;
 
     &:focus {
       border-color: $focus-blue;
     }
   }
   &__terms{
-    height: 150px
+    height: 9.375rem
   }
 
   &__payment{
-    height: 80px
+    height: 5rem
   }
 
   &__export-btn {
     @include m-main-button;
-    margin-top: 20px;
+    margin-top: 1.25rem;
   }
 
 
@@ -78,27 +78,27 @@
     width: 100%; 
     justify-content: space-between;
     align-items: flex-start;
-    border-bottom: 1px solid $grey;
-    padding: 30px 0;
+    border-bottom: 0.0625rem solid $grey;
+    padding: 1.875rem 0;
 
   }
   &__column{
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 0.9375rem;
     justify-content: center;
 
   }
 
   &__column-left{
-    margin-right: 20px;
+    margin-right: 1.25rem;
 
   }
 
   &__validation-message{
     color: red; 
-    font-size: 12px;
-    margin-top: 4px;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
   }
  
 }

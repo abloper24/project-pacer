@@ -9,6 +9,7 @@ function AddNewClientPage({ getClients }) {
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [email, setEmail] = useState("");
+    
     //form validation state
     const [errors, setErrors] = useState({});
 

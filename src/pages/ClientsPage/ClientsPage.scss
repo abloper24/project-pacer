@@ -3,7 +3,7 @@
 @use "../../styles/partials/variables" as *;
 
 .clients-page {
-  max-width: 1040px;
+  max-width: 65rem;
   margin: auto;
   @include m-padding;
   @include tablet{
@@ -17,7 +17,7 @@
   &__actions {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
 
     @include tablet{ 
         justify-content: flex-start;
@@ -35,8 +35,8 @@
         display: flex;
         justify-content: space-between;
         background-color: $light-green;
-        padding: 10px;
-        margin-bottom: 10px;
+        padding: 0.625rem;
+        margin-bottom: 0.625rem;
       }
     }
 
@@ -46,15 +46,15 @@
   .client {
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid $grey;
-    padding: 10px;
-    margin-bottom: 20px;
+    border-bottom: 0.0625rem solid $grey;
+    padding: 0.625rem;
+    margin-bottom: 1.25rem;
 
     @include tablet {
       display: grid;
-      grid-template-columns: repeat(4, 1fr) 120px;
+      grid-template-columns: repeat(4, 1fr) 7.5rem;
       align-items: center;
-      gap: 10px;
+      gap: 0.625rem;
     }
 
     &__name{
@@ -73,7 +73,7 @@
     &__actions {
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
+      gap: 0.625rem;
     }
 
     &__edit-btn, &__delete-btn {

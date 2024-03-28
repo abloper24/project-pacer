@@ -29,9 +29,9 @@ p, button, link,  a {
     @include m-h3;
     font-weight: 400;
     outline-color: $focus-blue;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 0.625rem;
+    border: 0.0625rem solid #ccc;
+    border-radius: 0.25rem;
 
     :focus, :focus-visible{
         border-color: $focus-blue

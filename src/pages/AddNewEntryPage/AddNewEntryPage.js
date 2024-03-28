@@ -11,7 +11,7 @@ function AddNewEntryPage({ clients }) {
     const [task, setTask] = useState("");
     const [selectedClientId, setSelectedClientId] = useState("");
 
-    //form vlidation states
+    //form validation states
     const [errors, setErrors] = useState({});
 
 

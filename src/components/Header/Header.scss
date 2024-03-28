@@ -6,9 +6,9 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 20px 16px;
+  padding: 1.25rem 1rem;
   img {
-    max-height: 30px;
+    max-height: 1.875rem;
   }
 
   &__link{
@@ -25,22 +25,22 @@
 
   &__link {
     text-decoration: none;
-    margin: 20px 10px;
+    margin: 1.25rem 0.625rem;
   }
   &__btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    height: 38px;
-    padding: 14px 16px;
+    gap: 0.5rem;
+    height: 2.375rem;
+    padding: 0.875rem 1rem;
     background: $light-green;
     color: $green;
     border: none;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     @include m-h3;
     img {
-      max-height: 18px;
+      max-height: 1.125rem;
     }
 
     &:hover, :active{

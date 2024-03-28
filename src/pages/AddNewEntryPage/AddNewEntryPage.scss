@@ -3,7 +3,7 @@
 @use "../../styles/partials/variables" as *;
 
 .entry-form {
-  max-width: 500px;
+  max-width: 31.25rem;
   margin: auto;
   @include m-padding;
   @include tablet{
@@ -19,10 +19,10 @@
   &__back-btn{
     background-color: transparent;
     border: none;
-    margin-right: 16px;
+    margin-right: 1rem;
   }
   &__title {
-    margin-bottom: 20px; 
+    margin-bottom: 1.25rem; 
     text-align: center;
     @include m-h1;
   }
@@ -30,16 +30,16 @@
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 15px; 
+    gap: 0.9375rem; 
     width: 100%; 
-    max-width: 500px; 
+    max-width: 31.25rem; 
     margin: auto; 
   }
 
   &__field {
     display: flex;
     flex-direction: column;
-    gap: 5px; 
+    gap: 0.3125rem; 
   }
 
   &__label {
@@ -49,9 +49,9 @@
   &__input,
   &__select,
   &__textarea {
-    padding: 10px; 
-    border: 1px solid #ccc; 
-    border-radius: 4px; 
+    padding: 0.625rem; 
+    border: 0.0625rem solid #ccc; 
+    border-radius: 0.25rem; 
 
     &:focus {
       border-color: $brown; 
@@ -59,18 +59,18 @@
   }
 
   &__textarea {
-    height: 100px; 
+    height: 6.25rem; 
     resize: vertical; 
   }
 
   &__submit-btn {
     @include m-main-button; 
-    margin-top: 20px; 
+    margin-top: 1.25rem; 
   }
 
   &__validation-message{
     color: red; 
-    font-size: 12px;
-    margin-top: 4px;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
   }
 }
